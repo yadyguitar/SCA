@@ -7,26 +7,28 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 
 
 
 public class ControllerArea implements Initializable
 {
 	@FXML ScrollPane canvas_area;
-	@FXML ScrollPane area_results;
+	@FXML GridPane area_results;
 	
 	Image img;
+	int cont =0;
 	Canvas canvas;
 	GraphicsContext gc;
 	String url;
 	int band=0;
 	List< List<Float> > poligonos;
 	List<Float> coords;
-	List<Float> areas=new ArrayList<Float>();
+	List<Label> areas=new ArrayList<Label>();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -77,9 +79,9 @@ public class ControllerArea implements Initializable
 		 gc.stroke();
 		 coords.add((float)e.getX());
 		 coords.add((float)e.getY());
-		 System.out.println(coords);
+		 //System.out.println(coords);
 		 if (e.getClickCount()==2){
-			 System.out.println("doble click");
+			// System.out.println("doble click");
 			 //lo de abajo probable en la función de actualizar
 			 actualiza();
 			 cierraArea();
@@ -128,7 +130,7 @@ public class ControllerArea implements Initializable
 				 gc.lineTo(coords.get(i-1), coords.get(i));
 				 gc.stroke();
 			 }
-			 
+			
 		 }
 		 
 	 }
@@ -144,8 +146,16 @@ public class ControllerArea implements Initializable
 		 for (i=0;i<resultado.size();i++){
 			 temp+=resultado.get(i);
 	 	 }
+		 float res=Math.round( ((0.5)*Math.abs(temp)) );   
+		 areas.add(new Label(""+res));
+		 //System.out.println(areas);
+		 agrega_campo();
+	 }
+	 
+	 public void agrega_campo(){
 		 
-		 areas.add((float)Math.round( ((0.5)*Math.abs(temp)) )   );
-		 System.out.println(areas);
+		 area_results.addRow(areas.size()-1,areas.get(areas.size()-1));
+		
+		 
 	 }
 }
