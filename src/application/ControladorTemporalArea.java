@@ -12,7 +12,7 @@ public class ControladorTemporalArea extends Application{
 
 	@Override 
 	public void start(Stage principal) throws Exception{
-		Parent mainLayout = FXMLLoader.load(getClass().getResource("interfaz_area.fxml"));
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("interfaz_area_yadi.fxml"));
         Scene scene = new Scene(mainLayout, 700, 700);
         principal.setTitle("area");
         principal.setScene(scene);
