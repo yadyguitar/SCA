@@ -34,7 +34,7 @@ public class ControllerArea implements Initializable
 		
 		
 		inicializaCanvas();
-		subirImagen("file:///home/yadyguitar/workspace/area/src/application/cristal1.png");
+		subirImagen("application/cristal1.png");
 		
 		
 		canvas.setOnMouseClicked(e->dibujaLinea(e));
@@ -45,7 +45,7 @@ public class ControllerArea implements Initializable
 	
 		 
 	 public void subirImagen(String url){
-		 img= new Image(url);
+		 img=new Image(url);
 		 gc.drawImage(img, 0, 0);
 		 
 	 }
