@@ -15,10 +15,11 @@ import javafx.scene.layout.GridPane;
 
 
 
-public class ControllerArea implements Initializable
+public class AreaControlador implements Initializable, ControladorVentanas
 {
 	@FXML ScrollPane canvas_area;
 	@FXML GridPane area_results;
+	ScreensController myController; 
 	
 	Image img;
 	int cont =0;
@@ -36,7 +37,7 @@ public class ControllerArea implements Initializable
 		
 		
 		inicializaCanvas();
-		subirImagen("application/cristal1.png");
+		subirImagen("application/imagenes/cristal.png");
 		
 		
 		canvas.setOnMouseClicked(e->dibujaLinea(e));
@@ -45,7 +46,24 @@ public class ControllerArea implements Initializable
 		canvas_area.setContent(canvas);
 	}
 	
-		 
+	public void setScreenParent(ScreensController screenParent){ 
+        myController = screenParent; 
+     }
+	@FXML
+	 private void MostrarInicio() {
+	        //llamado desde el botón que existe en la vista.
+		 myController.setScreen(Framework.screen1ID);
+	 }
+	@FXML
+	private void MostrarProyecto(){
+		myController.setScreen(Framework.screen2ID);
+	}
+	@FXML
+	private void MostrarImagen(){
+		myController.setScreen(Framework.screen3ID);
+	}
+	
+	
 	 public void subirImagen(String url){
 		 img=new Image(url);
 		 gc.drawImage(img, 0, 0);
@@ -62,6 +80,7 @@ public class ControllerArea implements Initializable
 	 public void dibujaOnMove(MouseEvent e){
 		 if(band==1){
 			 actualiza();
+			 System.out.println(e.getX() +", "+ e.getY());
 			 if(coords.size()>=2){
 				 gc.beginPath();
 				 gc.lineTo(coords.get(coords.size()-2),coords.get(coords.size()-1));
@@ -82,7 +101,7 @@ public class ControllerArea implements Initializable
 		 //System.out.println(coords);
 		 if (e.getClickCount()==2){
 			// System.out.println("doble click");
-			 //lo de abajo probable en la funciÃ³n de actualizar
+			 //lo de abajo probable en la función de actualizar
 			 actualiza();
 			 cierraArea();
 			 //coords.clear();
