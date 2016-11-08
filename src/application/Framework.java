@@ -19,13 +19,17 @@ public class Framework extends Application {
     public void start(Stage primaryStage) {
         
         ScreensController mainContainer = new ScreensController();
+        
         mainContainer.loadScreen(Framework.screen1ID, Framework.screen1File);
         mainContainer.loadScreen(Framework.screen2ID, Framework.screen2File);
         mainContainer.loadScreen(Framework.screen3ID, Framework.screen3File);
-       mainContainer.setScreen(Framework.screen3ID);
+        mainContainer.setScreen(Framework.screen3ID);
+        
+  
         
         Group root = new Group();
         root.getChildren().addAll(mainContainer);
+        
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Software Crystal Analysis");
