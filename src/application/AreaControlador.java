@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -42,7 +43,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		
 		canvas.setOnMouseClicked(e->dibujaLinea(e));
 		canvas.setOnMouseMoved(e->dibujaOnMove(e));
-		
+		area_results.setOnMouseClicked(e -> seleccion(e));
 		canvas_area.setContent(canvas);
 	}
 	
@@ -51,7 +52,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
      }
 	@FXML
 	 private void MostrarInicio() {
-	        //llamado desde el botón que existe en la vista.
+	        //llamado desde el botï¿½n que existe en la vista.
 		 myController.setScreen(Framework.screen1ID);
 	 }
 	@FXML
@@ -80,7 +81,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 public void dibujaOnMove(MouseEvent e){
 		 if(band==1){
 			 actualiza();
-			 System.out.println(e.getX() +", "+ e.getY());
+			// System.out.println(e.getX() +", "+ e.getY());
 			 if(coords.size()>=2){
 				 gc.beginPath();
 				 gc.lineTo(coords.get(coords.size()-2),coords.get(coords.size()-1));
@@ -101,7 +102,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 //System.out.println(coords);
 		 if (e.getClickCount()==2){
 			// System.out.println("doble click");
-			 //lo de abajo probable en la función de actualizar
+			 //lo de abajo probable en la funciï¿½n de actualizar
 			 actualiza();
 			 cierraArea();
 			 //coords.clear();
@@ -174,7 +175,18 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 public void agrega_campo(){
 		 
 		 area_results.addRow(areas.size()-1,areas.get(areas.size()-1));
-		
+		System.out.println(area_results.getChildren());
 		 
+	 }
+	 
+	 public void seleccion(MouseEvent e){
+		 
+		 for (Node node: area_results.getChildren()){
+			 
+			 if(node.getBoundsInParent().contains(e.getX(), e.getY()))
+                 System.out.println( "Node: " + node + " at " + GridPane.getRowIndex( node) + "/" + GridPane.getColumnIndex( node));
+		 
+		 
+		 }
 	 }
 }
