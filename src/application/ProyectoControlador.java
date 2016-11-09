@@ -51,7 +51,7 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		RowConstraints file = null;
 		//agrega columnas   
 	
-		ColumnConstraints column1 = new ColumnConstraints(270);
+		ColumnConstraints column1 = new ColumnConstraints(290);
 		 final ImageView imv = new ImageView();
         final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/imagen.png"));
         imv.setImage(image2);

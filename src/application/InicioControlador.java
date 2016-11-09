@@ -23,7 +23,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 
 	ScreensController myController; 
 	
-	private int MAX =5;
+	private int MAX =4;
 	private int i = 0;
 	private int j = 0;
 	@FXML GridPane grid;
@@ -49,7 +49,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		RowConstraints file = null;
 		//agrega columnas   
 	
-		ColumnConstraints column1 = new ColumnConstraints(270);
+		ColumnConstraints column1 = new ColumnConstraints(290);
 		 final ImageView imv = new ImageView();
         final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/carpeta.png"));
         imv.setImage(image2);
