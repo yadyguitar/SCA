@@ -13,6 +13,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 
 
@@ -95,6 +96,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 public void dibujaLinea(MouseEvent e){
 		 band=1;
+		 gc.beginPath();
 		 gc.lineTo(e.getX(),e.getY());
 		 gc.stroke();
 		 coords.add((float)e.getX());
@@ -173,19 +175,31 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 
 	 public void agrega_campo(){
-		 
 		 area_results.addRow(areas.size()-1,areas.get(areas.size()-1));
-		System.out.println(area_results.getChildren());
-		 
 	 }
 	 
 	 public void seleccion(MouseEvent e){
-		 
+		 actualiza();
+		 int j;
 		 for (Node node: area_results.getChildren()){
 			 
-			 if(node.getBoundsInParent().contains(e.getX(), e.getY()))
-                 System.out.println( "Node: " + node + " at " + GridPane.getRowIndex( node) + "/" + GridPane.getColumnIndex( node));
-		 
+			 if(node.getBoundsInParent().contains(e.getX(), e.getY())){
+				 List<Float> temp=poligonos.get(area_results.getRowIndex(node));
+				 
+				 gc.setStroke(Color.GREEN);
+				 gc.setLineWidth(3);
+						gc.beginPath();
+						for (j=1;j<temp.size();j+=2){
+							gc.lineTo(temp.get(j-1), temp.get(j));
+							gc.stroke();					
+						}
+				 gc.closePath();
+				 gc.setStroke(Color.BLACK);
+				 gc.setLineWidth(1);
+				 
+			 }
+                 
+			 
 		 
 		 }
 	 }
