@@ -203,4 +203,10 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 
 		 }
 	 }
+	 
+	 
+	 public void eliminar(){
+		 
+		 
+	 }
 }
