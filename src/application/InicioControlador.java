@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -49,16 +50,12 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         myController = screenParent; 
      } 
 	
-	@FXML 
-	private void CrearNuevo(){
-		
-	}
-	
 	@FXML
 	 private void MostrarInicio() {
 	        //llamado desde el botón que existe en la vista.
 		 myController.setScreen(Framework.screen1ID);
 	 }
+	
 	public void enviarProyecto(javafx.scene.input.MouseEvent e,String text){
 		
 		//System.out.println("Texto en inicioControlador:  "+text);

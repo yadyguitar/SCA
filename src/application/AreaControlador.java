@@ -1,5 +1,4 @@
 package application;
-import application.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +45,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		url2=co.ruta_imagen(pro.t2, pro.t3);
 		//System.out.println(url2);
 		subirImagen(url2);
-		
-		
+
 		canvas.setOnMouseClicked(e->dibujaLinea(e));
 		canvas.setOnMouseMoved(e->dibujaOnMove(e));
 		area_results.setOnMouseClicked(e -> seleccion(e));

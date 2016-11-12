@@ -26,11 +26,11 @@ public class Framework extends Application {
         mainContainer.loadScreen(this.screen3ID, this.screen3File);
         mainContainer.setScreen(this.screen1ID);
 
-        mainContainer.loadScreen(Framework.screen1ID, Framework.screen1File);
+       /* mainContainer.loadScreen(Framework.screen1ID, Framework.screen1File);
         mainContainer.loadScreen(Framework.screen2ID, Framework.screen2File);
         mainContainer.loadScreen(Framework.screen3ID, Framework.screen3File);
         mainContainer.setScreen(Framework.screen3ID);
-        
+        */
   
         
         Group root = new Group();
