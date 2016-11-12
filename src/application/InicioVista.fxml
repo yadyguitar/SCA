@@ -17,7 +17,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" text="Nuevo" />
+            <MenuItem onMouseClicked="#CrearNuevo" mnemonicParsing="false" text="Nuevo" />
             <MenuItem mnemonicParsing="false" text="Abrir…" />
             <Menu mnemonicParsing="false" text="Abrir reciente" />
             <SeparatorMenuItem mnemonicParsing="false" />

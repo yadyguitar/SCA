@@ -20,10 +20,16 @@ public class Framework extends Application {
         
         ScreensController mainContainer = new ScreensController();
         
+
         mainContainer.loadScreen(this.screen1ID, this.screen1File);
         mainContainer.loadScreen(this.screen2ID,this.screen2File);
         mainContainer.loadScreen(this.screen3ID, this.screen3File);
         mainContainer.setScreen(this.screen1ID);
+
+        mainContainer.loadScreen(Framework.screen1ID, Framework.screen1File);
+        mainContainer.loadScreen(Framework.screen2ID, Framework.screen2File);
+        mainContainer.loadScreen(Framework.screen3ID, Framework.screen3File);
+        mainContainer.setScreen(Framework.screen3ID);
         
   
         
