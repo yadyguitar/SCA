@@ -1,5 +1,7 @@
 package application;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -9,28 +11,31 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 
 public class ProyectoControlador  implements Initializable,ControladorVentanas{
 
+ScreensController myController; 
+static public Integer t2;
+static public String t3;
+	InicioControlador inicio = new InicioControlador();
 	private int MAX =4;
 	private int i = 0;
 	private int j = 0;
-	ScreensController myController; 
-
-	
-	
+	private int k=0;
+	VBox pictureRegion;
 	@FXML GridPane grid;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-	
+		agregaImagen();
 		
 	}
-
 	public void setScreenParent(ScreensController screenParent){ 
         myController = screenParent; 
      } 
@@ -38,56 +43,97 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 	@FXML
 	 private void MostrarInicio() {
 	        //llamado desde el botón que existe en la vista.
-		 myController.setScreen(Framework.screen1ID);
+		myController.unloadScreen(Framework.screen1ID);
+		myController.loadScreen(Framework.screen1ID, Framework.screen1File);
+		myController.setScreen(Framework.screen1ID);
+	
 	 }
+
+
 	@FXML
 	private void MostrarProyecto(){
+		myController.unloadScreen(Framework.screen2ID);
+		myController.loadScreen(Framework.screen2ID, Framework.screen2File);
 		myController.setScreen(Framework.screen2ID);
-	}
-	 
-	
-	
-	@FXML public void agregaImagen(){
-		RowConstraints file = null;
-		//agrega columnas   
-	
-		ColumnConstraints column1 = new ColumnConstraints(290);
-		 final ImageView imv = new ImageView();
-        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/imagen.png"));
-        imv.setImage(image2);
-        imv.setFitWidth(120);
-        imv.setFitHeight(118);
-        
-	    grid.getColumnConstraints().addAll(column1);
-	
-       
-   
-        
-        VBox pictureRegion = new VBox(2); // spacing = 8     
-        pictureRegion.setPrefHeight(225);
-        pictureRegion.getChildren().add(imv);
-        ComboBox<String> cb = new ComboBox<String>();
-        cb.setPrefWidth(100);
-        cb.setItems(FXCollections.observableArrayList("10", "20","30","40","50","60","70","80","90","100","110","120","130","140","150","160","170","180","190","200","210","220","230","240"));
-        cb.setValue("10");   //Valor a pasar
-        
-        pictureRegion.getChildren().addAll(cb);
-        //pictureRegion.getChildren().addAll(new Label("Cut"), new Button("Copy"), new Label("Paste"));
-       
-      
-        
-        pictureRegion.setAlignment(Pos.CENTER);
-        grid.add(pictureRegion,i, j);
-        System.out.println("hola"+ i + j);
-        i++;
-        if(i==MAX)
-        {
-        	file = new  RowConstraints(225);
-        	grid.getRowConstraints().addAll(file);
-        	j++;
-        	i=0;
-        }
-        
 		
 	}
+	 
+	public void enviarImagen(javafx.scene.input.MouseEvent e,Integer texto2, String texto3){
+		
+		System.out.println("Texto en Area:  "+texto2);
+		t2=texto2;
+		t3=texto3;
+		myController.unloadScreen(Framework.screen3ID);
+		myController.loadScreen(Framework.screen3ID, Framework.screen3File);
+		myController.setScreen(Framework.screen3ID);
+		
+	}
+
+	@FXML public void agregaImagen(){
+        
+		RowConstraints file = null;
+		//Se crea una conexión a la base de datos
+		//Consultas c=new Consultas();
+		//Los datos obtenidos se almacenan en una lista
+        List<Integer> lista=new ArrayList<Integer>();
+        InicioControlador ini= new InicioControlador();
+        
+        System.out.println("Texto en Proyecto:   "+ini.t);
+        
+        Consultas c = new Consultas();
+        lista.addAll(c.imagen(ini.t));
+       // System.out.println(lista);
+        //tamaño de la lista
+        int tam = lista.size();
+        //Mientras no se supere ese tamaño
+		while(k<tam){  
+   
+			pictureRegion= new VBox(10); 		
+			//Crea una imagen
+			final ImageView imv = new ImageView();
+	        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/imagen.png"));
+	        imv.setImage(image2);
+	        imv.setFitWidth(120);
+	        imv.setFitHeight(118);
+    
+	   	 
+	        //Se posiciona el VBox
+	        pictureRegion.setAlignment(Pos.CENTER);
+	        pictureRegion.setMinSize(260, 230);
+	        pictureRegion.getChildren().add(imv);
+	      //  Text temp=(Text)pictureRegion.getChildren().get(1);
+	        //pictureRegion.setOnMouseClicked(e-> enviarArea(e,temp.getText()));
+	        
+	        ComboBox<String> cb = new ComboBox<String>();
+	        cb.setPrefWidth(100);
+	        cb.setItems(FXCollections.observableArrayList("Minuto 10", "Minuto 20","Minuto 30","Minuto 40","Minuto 50","Minuto 60","Minuto 70","Minuto 80","Minuto 90","Minuto 100","Minuto 110","Minuto 120","Minuto 130","Minuto 140","Minuto 150","Minuto 160","Minuto 170","Minuto 180","Minuto 190","Minuto 200","Minuto 210","Minuto 220","Minuto 230","Minuto 240"));
+	        cb.setDisable(true);
+	        cb.setOpacity(1.8);
+	       
+	        cb.setValue("Minuto " +String.valueOf(lista.get(k)));   //Valor a pasar
+	       // texto.setText(lista.get(k));
+	        pictureRegion.getChildren().addAll(cb);
+	        Integer min=lista.get(k);
+	        pictureRegion.setOnMouseClicked(e-> enviarImagen(e,min,ini.t));
+	       
+	        //Se agrega VBox al grid en columna i fila j
+	        grid.add(pictureRegion, i, j);
+	        i++;
+	        //Si ya son 4 columnas
+	        if(i==MAX)
+	        {
+	        	//Crea una fila
+	        	//file = new  RowConstraints(230);
+	        	//Y agregala al grid
+	        	//grid.getRowConstraints().addAll(file);
+	        	j++;
+	        	i=0;
+	        }
+	        k++;
+		}
+		tam=0;
+		
+	}
+	
+
 }

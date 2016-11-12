@@ -1,4 +1,5 @@
 package application;
+import application.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,24 +23,29 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	@FXML ScrollPane canvas_area;
 	@FXML GridPane area_results;
 	ScreensController myController; 
-	
+    ProyectoControlador pro= new ProyectoControlador();
+    InicioControlador ini = new InicioControlador();
+
 	Image img;
 	int cont =0;
 	Canvas canvas;
 	GraphicsContext gc;
-	String url;
+	String url2;
 	int band=0;
 	List< List<Float> > poligonos;
 	List<Float> coords;
 	List<Label> areas=new ArrayList<Label>();
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		
 		
 		inicializaCanvas();
-		subirImagen("application/imagenes/cristal.png");
+		Consultas co = new Consultas();
+		System.out.println(pro.t2);
+		url2=co.ruta_imagen(pro.t2, pro.t3);
+		//System.out.println(url2);
+		subirImagen(url2);
 		
 		
 		canvas.setOnMouseClicked(e->dibujaLinea(e));
