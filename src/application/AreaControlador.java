@@ -13,6 +13,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 
 
@@ -30,7 +31,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	Canvas canvas;
 	GraphicsContext gc;
 	String url2;
-	int band=0;
+	int band=0,indice=-1;
 	List< List<Float> > poligonos;
 	List<Float> coords;
 	List<Label> areas=new ArrayList<Label>();
@@ -100,6 +101,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 public void dibujaLinea(MouseEvent e){
 		 band=1;
+		 indice=-1;
 		 gc.beginPath();
 		 gc.lineTo(e.getX(),e.getY());
 		 gc.stroke();
@@ -185,10 +187,12 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 public void seleccion(MouseEvent e){
 		 actualiza();
 		 int j;
+		 		 
 		 for (Node node: area_results.getChildren()){
 			 
 			 if(node.getBoundsInParent().contains(e.getX(), e.getY())){
-				 List<Float> temp=poligonos.get(area_results.getRowIndex(node));
+				 indice=area_results.getRowIndex(node);
+				 List<Float> temp=poligonos.get(indice);
 				 
 				 gc.setStroke(Color.GREEN);
 				 gc.setLineWidth(3);
@@ -210,7 +214,23 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 
 	 
 	 public void eliminar(){
+		 if(indice!=-1){
+		 System.out.println("eliminaras el indice: "+indice+"?");
+		 //pasar valores uno por uno en el grid
+		 int tam=area_results.getChildren().size();
+		 
+		 for (int i=indice;i<tam-1;i++){
+			 Label temp=(Label)area_results.getChildren().get(i);
+			 temp.setText( ((Label)area_results.getChildren().get(i+1)).getText() );
+		 }
+		 area_results.getChildren().remove(tam-1);
+		 /////////////////////////////////////////
+		 areas.remove(indice);
+		 poligonos.remove(indice);
 		 
 		 
+		 indice=-1;
+		 actualiza();
+		 }
 	 }
 }
