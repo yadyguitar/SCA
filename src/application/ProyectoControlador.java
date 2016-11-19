@@ -21,8 +21,8 @@ import javafx.scene.text.Text;
 public class ProyectoControlador  implements Initializable,ControladorVentanas{
 
 ScreensController myController; 
-static public Integer t2;
-static public String t3;
+static public Integer t2; //minuto de la imagen
+static public String t3; //nombre del proyecto
 	InicioControlador inicio = new InicioControlador();
 	private int MAX =4;
 	private int i = 0;
@@ -42,7 +42,7 @@ static public String t3;
 	
 	@FXML
 	 private void MostrarInicio() {
-	        //llamado desde el botón que existe en la vista.
+	        //llamado desde el botï¿½n que existe en la vista.
 		myController.unloadScreen(Framework.screen1ID);
 		myController.loadScreen(Framework.screen1ID, Framework.screen1File);
 		myController.setScreen(Framework.screen1ID);
@@ -72,7 +72,7 @@ static public String t3;
 	@FXML public void agregaImagen(){
         
 		RowConstraints file = null;
-		//Se crea una conexión a la base de datos
+		//Se crea una conexiï¿½n a la base de datos
 		//Consultas c=new Consultas();
 		//Los datos obtenidos se almacenan en una lista
         List<Integer> lista=new ArrayList<Integer>();
@@ -83,9 +83,9 @@ static public String t3;
         Consultas c = new Consultas();
         lista.addAll(c.imagen(ini.t));
        // System.out.println(lista);
-        //tamaño de la lista
+        //tamaï¿½o de la lista
         int tam = lista.size();
-        //Mientras no se supere ese tamaño
+        //Mientras no se supere ese tamaï¿½o
 		while(k<tam){  
    
 			pictureRegion= new VBox(10); 		

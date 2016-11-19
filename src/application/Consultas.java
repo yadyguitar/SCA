@@ -9,7 +9,10 @@ package application;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import javafx.scene.control.Label;
 
 
 public class Consultas extends Conexion{
@@ -19,7 +22,7 @@ public class Consultas extends Conexion{
 
 	public List<Integer> lista2=new ArrayList<Integer>();
 	
-       
+     //Devuelve un array de strings de los nombres de las carpetas
 	 public ArrayList<String> carpeta(){
 		
 	 
@@ -31,7 +34,7 @@ public class Consultas extends Conexion{
 	        try{
 	            //COMANDO PARA HACER LA CONSULTA EN LA BD
 	            String consultaUsuario ="select * from proyecto";
-	            //PREPARA LA CONEXIÓN
+	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
 	            //OBTEN LOS DATOS
 	           
@@ -71,6 +74,7 @@ public class Consultas extends Conexion{
 			return null;
 	 }
 	 
+	 //Devuelve una lista de las imagenes que se encuentran en el proyecto ingresado como parÃ¡metro
 	 public List<Integer> imagen(String NombreProyecto){
 			System.out.println(NombreProyecto);
 		
@@ -82,7 +86,7 @@ public class Consultas extends Conexion{
 	        try{
 	            //COMANDO PARA HACER LA CONSULTA EN LA BD
 	            String consultaUsuario ="SELECT * from proyecto,imagen WHERE NombreProyecto='"+NombreProyecto+"' and proyecto.id_proyecto = imagen.id_proyecto";
-	            //PREPARA LA CONEXIÓN
+	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
 	           
 	            //OBTEN LOS DATOS
@@ -122,6 +126,8 @@ public class Consultas extends Conexion{
 	        
 			return null;
 	 }
+	 
+	 //Devuelve la ruta de la imagen, para abrir la vista area
 	 public String ruta_imagen(int minuto,String NombreProyecto){
 	        PreparedStatement pst;
 	        pst = null;
@@ -131,7 +137,7 @@ public class Consultas extends Conexion{
 	        try{
 	            //COMANDO PARA HACER LA CONSULTA EN LA BD
 	            String consultaUsuario ="select URL from proyecto,imagen where imagen.minuto ="+minuto+" and proyecto.NombreProyecto='"+NombreProyecto+"' and proyecto.id_proyecto=imagen.id_proyecto";
-	            //PREPARA LA CONEXIÓN
+	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
 	            //OBTEN LOS DATOS
 	           // pst.setInt(1, id_imagen);
@@ -163,6 +169,92 @@ public class Consultas extends Conexion{
 	        
 	         return null;
 	    }
+	 
+	 public int id_imagen(String url){
+		 	PreparedStatement pst;
+	        pst = null;
+	        ResultSet rs= null;
+	      
+	        //CONSULTA EN LA BD
+	        try{
+	            //COMANDO PARA HACER LA CONSULTA EN LA BD
+	            String consultaUsuario ="select id_imagen from imagen where URL ='"+url+"'";
+	            //PREPARA LA CONEXIï¿½N
+	            pst = getConexion().prepareStatement(consultaUsuario);
+	            //OBTEN LOS DATOS
+	           // pst.setInt(1, id_imagen);
+	            //EJECUTA LA CONSULTA
+	            rs = pst.executeQuery();
+	            
+	            //SI TIENE REGISTROS LA TABLA
+	            if(rs.absolute(1)){
+	                return rs.getInt(1);
+	            }
+	            
+	        //EN CASO DE HABER ERROR MANDAR MENSAJE
+	        }catch(Exception e){
+	            System.err.println("ERROR " +e);
+	        }
+	        finally{
+	            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+	            try{
+	                if(getConexion()!=null) getConexion().close();
+	                if(pst != null) pst.close();
+	                if(rs!=null) rs.close();
+	            }
+	            //SI NO MANDAR ERROR
+	            catch (Exception e)
+	            {
+	                System.err.println("ERROR "+ e);
+	            }
+	        }
+	        
+	         return 0;
+	 }
 
+	 public boolean agregar_poligonos(int id_imagen, List<Label> areas){
+		 PreparedStatement pst;
+	        pst = null;
+	        ResultSet rs= null;
+	      
+	        //CONSULTA EN LA BD
+	        try{
+	            //COMANDO PARA HACER LA CONSULTA EN LA BD
+	            String consultaUsuario ="Insert into poligono (id_imagen, area) values (?,?);";
+	            //PREPARA LA CONEXIï¿½N
+	            pst = getConexion().prepareStatement(consultaUsuario);
+	            
+	            for (Label area : areas){
+	            //OBTEN LOS DATOS
+	            pst.setInt(1, id_imagen);
+	            pst.setFloat(2, Float.parseFloat(area.getText()));
+	            //EJECUTA LA CONSULTA
+	            pst.execute();
+	            
+	            }
+	            
+	            return true;
+	            
+	        //EN CASO DE HABER ERROR MANDAR MENSAJE
+	        }catch(Exception e){
+	            System.err.println("ERROR " +e);
+	        }
+	        finally{
+	            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+	            try{
+	                if(getConexion()!=null) getConexion().close();
+	                if(pst != null) pst.close();
+	                if(rs!=null) rs.close();
+	            }
+	            //SI NO MANDAR ERROR
+	            catch (Exception e)
+	            {
+	                System.err.println("ERROR "+ e);
+	            }
+	        }
+	       
+		 return false;
+	 }
+	 
   
 }

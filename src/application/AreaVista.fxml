@@ -74,7 +74,7 @@
             <MenuItem mnemonicParsing="false" text="Abrir…" />
             <Menu mnemonicParsing="false" text="Abrir reciente" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Guardar" />
+            <MenuItem mnemonicParsing="false" text="Guardar" onAction="#guardar"/>
             <MenuItem mnemonicParsing="false" text="Guardar como..." />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Cerrar" />

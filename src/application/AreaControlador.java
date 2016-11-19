@@ -43,7 +43,8 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		inicializaCanvas();
 		Consultas co = new Consultas();
 		System.out.println(pro.t2);
-		url2=co.ruta_imagen(pro.t2, pro.t3);
+		url2=co.ruta_imagen(pro.t2, pro.t3); //obtengo la ruta pasando como parámetros el min y el nombre de proyecto
+		
 		//System.out.println(url2);
 		subirImagen(url2);
 
@@ -231,6 +232,15 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 
 		 indice=-1;
 		 actualiza();
+		 }
+	 }
+	 public void guardar(){
+		 int id_imagen=new Consultas().id_imagen(url2);
+		 if(new Consultas().agregar_poligonos(id_imagen, areas)){
+			 System.out.println("Se guardó correctamente (:");
+		 }else{
+			 System.out.println("Oh oh... algo salió mal");
+			 
 		 }
 	 }
 }
