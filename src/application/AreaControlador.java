@@ -1,8 +1,17 @@
 package application;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -11,10 +20,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 
 
@@ -26,7 +38,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
     ProyectoControlador pro= new ProyectoControlador();
     InicioControlador ini = new InicioControlador();
 
-	Image img;
+	static Image img;
 	int cont =0;
 	Canvas canvas;
 	GraphicsContext gc;
@@ -45,7 +57,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		System.out.println(pro.t2);
 		url2=co.ruta_imagen(pro.t2, pro.t3); //obtengo la ruta pasando como parámetros el min y el nombre de proyecto
 		
-		//System.out.println(url2);
+		System.out.println(url2);
 		subirImagen(url2);
 
 		canvas.setOnMouseClicked(e->dibujaLinea(e));
@@ -72,10 +84,15 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	}
 	
 	
-	 public void subirImagen(String url){
-		 img=new Image(url);
+	 public boolean subirImagen(String url){
+		 try{
+		 img=new Image("src/"+url);
 		 gc.drawImage(img, 0, 0);
-		 
+		 }catch (Exception e) {
+			System.out.println(e.getMessage());
+			 return false;
+		}
+		return true;
 	 }
 	 public void inicializaCanvas(){
 		 canvas= new Canvas(1200,1200);
@@ -151,7 +168,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 
 	 public void actualiza(){
 		 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		 gc.drawImage(img, 0, 0);		
+		 gc.drawImage(img, 0, 0);	
 		 dibujaPoligonos();
 		 if (coords.size()>=4){
 			 gc.beginPath();
@@ -237,10 +254,35 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 public void guardar(){
 		 int id_imagen=new Consultas().id_imagen(url2);
 		 if(new Consultas().agregar_poligonos(id_imagen, areas)){
+			 saveToFile();
 			 System.out.println("Se guardó correctamente (:");
 		 }else{
 			 System.out.println("Oh oh... algo salió mal");
 			 
 		 }
 	 }
+	 
+	 public void saveToFile() {
+		 WritableImage wim = new WritableImage(1200, 1200);
+		 gc.getCanvas().snapshot(null,wim);
+
+		 File file = new File("src/"+url2);
+		 
+		 	
+		 try {
+			 	BufferedImage bi =SwingFXUtils.fromFXImage((Image)wim, null); 
+	            ImageIO.write(bi, "jpg", file);
+	            String temp=url2;
+	            while(!subirImagen(temp)){
+	            	System.out.println("nop....");
+	            	Scanner entradaEscaner = new Scanner (System.in); //Creación de un objeto Scanner
+	                temp = entradaEscaner.nextLine ();
+	            }
+	        } catch (Exception s) {
+	        	System.out.println("Ups!... errorcito jejeje no te molestes...");
+	        }
+		 
+         
+    }
+		  
 }
