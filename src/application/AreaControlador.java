@@ -14,13 +14,17 @@ import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -60,8 +64,10 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		System.out.println(url2);
 		subirImagen(url2);
 
-		canvas.setOnMouseClicked(e->dibujaLinea(e));
+		
+		canvas.setCursor(Cursor.CROSSHAIR);
 		canvas.setOnMouseMoved(e->dibujaOnMove(e));
+		canvas.setOnMouseClicked(e->dibujaLinea(e));
 		area_results.setOnMouseClicked(e -> seleccion(e));
 		canvas_area.setContent(canvas);
 	}
@@ -83,6 +89,15 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		myController.setScreen(Framework.screen3ID);
 	}
 	
+	@FXML
+	public void cancelar(KeyEvent e){
+		
+		if(e.getCode()==KeyCode.ESCAPE){
+			coords.clear();
+			actualiza();
+		}
+		
+	}
 	
 	 public boolean subirImagen(String url){
 		 try{
@@ -210,6 +225,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 			 
 			 if(node.getBoundsInParent().contains(e.getX(), e.getY())){
 				 indice=area_results.getRowIndex(node);
+				 area_results.getChildren().get(indice).setBlendMode(BlendMode.GREEN);
 				 List<Float> temp=poligonos.get(indice);
 				 
 				 gc.setStroke(Color.GREEN);
@@ -253,33 +269,28 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 public void guardar(){
 		 int id_imagen=new Consultas().id_imagen(url2);
+		 if(saveToFile()){
 		 if(new Consultas().agregar_poligonos(id_imagen, areas)){
-			 saveToFile();
 			 System.out.println("Se guardó correctamente (:");
 		 }else{
 			 System.out.println("Oh oh... algo salió mal");
 			 
 		 }
+		 }
 	 }
 	 
-	 public void saveToFile() {
+	 public boolean saveToFile() {
+		 actualiza();
 		 WritableImage wim = new WritableImage(1200, 1200);
 		 gc.getCanvas().snapshot(null,wim);
-
 		 File file = new File("bin/"+url2);
-		 
-		 	
 		 try {
 			 	BufferedImage bi =SwingFXUtils.fromFXImage((Image)wim, null); 
 	            ImageIO.write(bi, "png", file);
-	            String temp=url2;
-	            while(!subirImagen(temp)){
-	            	System.out.println("nop....");
-	            	Scanner entradaEscaner = new Scanner (System.in); //Creación de un objeto Scanner
-	                temp = entradaEscaner.nextLine ();
-	            }
+	            return true;
 	        } catch (Exception s) {
-	        	System.out.println("Ups!... errorcito jejeje no te molestes...");
+	        	System.out.println("Ups!... errorcito jejeje ");
+	        	return false;
 	        }
 		 
          
