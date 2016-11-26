@@ -86,7 +86,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	
 	 public boolean subirImagen(String url){
 		 try{
-		 img=new Image("src/"+url);
+		 img=new Image(url);
 		 gc.drawImage(img, 0, 0);
 		 }catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -266,12 +266,12 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 WritableImage wim = new WritableImage(1200, 1200);
 		 gc.getCanvas().snapshot(null,wim);
 
-		 File file = new File("src/"+url2);
+		 File file = new File("bin/"+url2);
 		 
 		 	
 		 try {
 			 	BufferedImage bi =SwingFXUtils.fromFXImage((Image)wim, null); 
-	            ImageIO.write(bi, "jpg", file);
+	            ImageIO.write(bi, "png", file);
 	            String temp=url2;
 	            while(!subirImagen(temp)){
 	            	System.out.println("nop....");
