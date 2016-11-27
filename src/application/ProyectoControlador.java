@@ -167,62 +167,86 @@ static public String t3; //nombre del proyecto
         //tama�o de la lista
         int tam = lista.size();
         //Mientras no se supere ese tama�o
-		while(k<tam){  
-   
-			pictureRegion= new VBox(10); 		
-			//Crea una imagen
-			final ImageView imv = new ImageView();
-	        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes\\imagen.png"));
-	        imv.setImage(image2);
-	        imv.setFitWidth(120);
-	        imv.setFitHeight(118);
-    
-	   	 
-	        //Se posiciona el VBox
-	        pictureRegion.setAlignment(Pos.CENTER);
-	        pictureRegion.setMinSize(260, 230);
-	        pictureRegion.getChildren().add(imv);
-	      //  Text temp=(Text)pictureRegion.getChildren().get(1);
-	        //pictureRegion.setOnMouseClicked(e-> enviarArea(e,temp.getText()));
-	        
-	        //ComboBox<String> cb = new ComboBox<String>();
-	        //cb.setPrefWidth(100);
-	        //cb.setItems(FXCollections.observableArrayList("Minuto 10", "Minuto 20","Minuto 30","Minuto 40","Minuto 50","Minuto 60","Minuto 70","Minuto 80","Minuto 90","Minuto 100","Minuto 110","Minuto 120","Minuto 130","Minuto 140","Minuto 150","Minuto 160","Minuto 170","Minuto 180","Minuto 190","Minuto 200","Minuto 210","Minuto 220","Minuto 230","Minuto 240"));
-	        //cb.setDisable(true);
-	        //cb.setOpacity(1.8);
-	       
-	        
-	        //cb.setValue("Minuto " +String.valueOf(lista.get(k)));   //Valor a pasar
-	        Label l = new Label();
-	        l.setText("Minuto "+String.valueOf(lista.get(k)));
-	        // texto.setText(lista.get(k));
-	        pictureRegion.getChildren().addAll(l);
-	        Integer min=lista.get(k);
-	        pictureRegion.setOnMouseClicked(e-> enviarImagen(e,min,ini.t));
-	       
-	       // Consultas co = new Consultas();
-	        //String ruta = new String("imagenes\\cristales\\min"+min+".png");
-	        //String origen = "origen.txt";
-	       	//String destino = "destino.txt";
-	      
-	        
-	        //Se agrega VBox al grid en columna i fila j
-	        grid.add(pictureRegion, i, j);
-	        i++;
-	        //Si ya son 4 columnas
-	        if(i==MAX)
-	        {
-	        	//Crea una fila
-	        	//file = new  RowConstraints(230);
-	        	//Y agregala al grid
-	        	//grid.getRowConstraints().addAll(file);
-	        	j++;
-	        	i=0;
-	        }
-	        k++;
-		}
-		tam=0;
-		
+        if(tam!=0){
+			while(k<tam){  
+	   
+				pictureRegion= new VBox(10); 		
+				
+		        
+		      //  Text temp=(Text)pictureRegion.getChildren().get(1);
+		        //pictureRegion.setOnMouseClicked(e-> enviarArea(e,temp.getText()));
+		        
+		        //ComboBox<String> cb = new ComboBox<String>();
+		        //cb.setPrefWidth(100);
+		        //cb.setItems(FXCollections.observableArrayList("Minuto 10", "Minuto 20","Minuto 30","Minuto 40","Minuto 50","Minuto 60","Minuto 70","Minuto 80","Minuto 90","Minuto 100","Minuto 110","Minuto 120","Minuto 130","Minuto 140","Minuto 150","Minuto 160","Minuto 170","Minuto 180","Minuto 190","Minuto 200","Minuto 210","Minuto 220","Minuto 230","Minuto 240"));
+		        //cb.setDisable(true);
+		        //cb.setOpacity(1.8);
+		       
+		        
+		        //cb.setValue("Minuto " +String.valueOf(lista.get(k)));   //Valor a pasar
+		        Label l = new Label();
+		        l.setText("Minuto "+String.valueOf(lista.get(k)));
+		        Consultas co = new Consultas();
+		        String tx = new String(co.ruta_imagen(lista.get(k), ini.t));
+		      //Crea una imagen
+				final ImageView imv = new ImageView();
+			    
+		        Image image2=new Image(tx);
+		        imv.setImage(image2);
+		        imv.setFitWidth(180);
+		        imv.setFitHeight(178);
+
+		        imv.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,61,0.8), 5, 1, 0.5, 0.5); ");
+		   	 
+		        //Se posiciona el VBox
+		        pictureRegion.setAlignment(Pos.CENTER);
+		        pictureRegion.setMinSize(260, 230);
+		        pictureRegion.getChildren().add(imv);
+		        
+		        
+		        
+		        
+		        // texto.setText(lista.get(k));
+		        pictureRegion.getChildren().addAll(l);
+		        Integer min=lista.get(k);
+		        pictureRegion.setOnMouseClicked(e-> enviarImagen(e,min,ini.t));
+		       
+		       // Consultas co = new Consultas();
+		        //String ruta = new String("imagenes\\cristales\\min"+min+".png");
+		        //String origen = "origen.txt";
+		       	//String destino = "destino.txt";
+		      
+		        
+		        //Se agrega VBox al grid en columna i fila j
+		        grid.add(pictureRegion, i, j);
+		        i++;
+		        //Si ya son 4 columnas
+		        if(i==MAX)
+		        {
+		        	//Crea una fila
+		        	//file = new  RowConstraints(230);
+		        	//Y agregala al grid
+		        	//grid.getRowConstraints().addAll(file);
+		        	j++;
+		        	i=0;
+		        }
+		        k++;
+			}
+			tam=0;
+        }
+        else{
+        	
+        	Label sinImagen = new Label("En este proyecto no existe ninguna imagen");
+        	sinImagen.setStyle("-fx-font-size: 25px; -fx-margin:200;");
+        	//sinImagen.setEffect(new Glow());
+        	 sinImagen.setPrefWidth(600);
+        	 sinImagen.setAlignment(Pos.CENTER);
+        	 sinImagen.setPrefHeight(30);
+        	  sinImagen.setWrapText(true);
+        	 
+        	  grid.add(sinImagen,0,0);
+        }
+			
 	}
 	
 	

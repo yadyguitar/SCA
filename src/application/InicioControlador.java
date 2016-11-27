@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -103,51 +104,64 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         //tamaño de la lista
         int tam = lista.size();
         //Mientras no se supere ese tamaño
-		while(k<tam){  
-			//Crea una columna y elementos
-			pictureRegion= new VBox(); 
-			
-		    Text texto = new Text();
-		    
-			//Crea una imagen
-			final ImageView imv = new ImageView();
-	        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/carpeta.png"));
-	        imv.setImage(image2);
-	        imv.setFitWidth(160);
-	        imv.setFitHeight(180);
-	        
-	        pictureRegion.getChildren().add(imv);
-	        
-	        //Crea el texto correspondiente a la carpeta
-	        texto.setText(lista.get(k));
-	    	
-	    	//Se agrega el texto
-	        pictureRegion.getChildren().add(texto);
-	      
-			
-	        Text temp=(Text)pictureRegion.getChildren().get(1);
-	        pictureRegion.setOnMouseClicked(e-> enviarProyecto(e,temp.getText()));
-	        File directorio = new File("src\\application\\Proyectos\\"+temp.getText()); 
-	        directorio.mkdir(); 
-	        
-	        //Se posiciona el VBox
-	        pictureRegion.setAlignment(Pos.CENTER);
-	        pictureRegion.setMinSize(260, 230);
-	        
-	        //Se agrega VBox al grid en columna i fila j
-	        
-	        grid.add(pictureRegion, i, j);
-	        
-	        i++;
-	        //Si ya son 4 columnas
-	        if(i==MAX)
-	        {
-	        	
-	        	j++;
-	        	i=0;
-	        }
-	        k++;
-		}
+        if(tam!=0){
+			while(k<tam){  
+				//Crea una columna y elementos
+				pictureRegion= new VBox(); 
+				
+			    Text texto = new Text();
+			    
+				//Crea una imagen
+				final ImageView imv = new ImageView();
+		        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/carpeta.png"));
+		        imv.setImage(image2);
+		        imv.setFitWidth(160);
+		        imv.setFitHeight(180);
+		        
+		        pictureRegion.getChildren().add(imv);
+		        
+		        //Crea el texto correspondiente a la carpeta
+		        texto.setText(lista.get(k));
+		    	
+		    	//Se agrega el texto
+		        pictureRegion.getChildren().add(texto);
+		      
+				
+		        Text temp=(Text)pictureRegion.getChildren().get(1);
+		        pictureRegion.setOnMouseClicked(e-> enviarProyecto(e,temp.getText()));
+		        File directorio = new File("src\\application\\Proyectos\\"+temp.getText()); 
+		        directorio.mkdir(); 
+		        
+		        //Se posiciona el VBox
+		        pictureRegion.setAlignment(Pos.CENTER);
+		        pictureRegion.setMinSize(260, 230);
+		        
+		        //Se agrega VBox al grid en columna i fila j
+		        
+		        grid.add(pictureRegion, i, j);
+		        
+		        i++;
+		        //Si ya son 4 columnas
+		        if(i==MAX)
+		        {
+		        	
+		        	j++;
+		        	i=0;
+		        }
+		        k++;
+			}
+        }
+        else{
+        	Label sinProyecto = new Label("No existe ningún proyeto");
+        	sinProyecto.setStyle("-fx-font-size: 25px; -fx-margin:200;");
+        	//sinImagen.setEffect(new Glow());
+        	 sinProyecto.setPrefWidth(600);
+        	 sinProyecto.setAlignment(Pos.CENTER);
+        	 sinProyecto.setPrefHeight(30);
+        	  sinProyecto.setWrapText(true);
+        	 
+        	  grid.add(sinProyecto,0,0);
+        }
 		
 	}
 	
