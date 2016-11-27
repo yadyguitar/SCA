@@ -215,6 +215,8 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 
 	 public void agrega_campo(){
 		 area_results.addRow(areas.size()-1,areas.get(areas.size()-1));
+		 area_results.getChildren().get(areas.size()-1).cursorProperty().set(Cursor.CLOSED_HAND);
+		 
 	 }
 	 
 	 public void seleccion(MouseEvent e){
@@ -225,7 +227,8 @@ public class AreaControlador implements Initializable, ControladorVentanas
 			 
 			 if(node.getBoundsInParent().contains(e.getX(), e.getY())){
 				 indice=area_results.getRowIndex(node);
-				 area_results.getChildren().get(indice).setBlendMode(BlendMode.GREEN);
+				 area_results.getChildren().get(indice).setStyle("-fx-background-color: #8fbc8f;");
+				 
 				 List<Float> temp=poligonos.get(indice);
 				 
 				 gc.setStroke(Color.GREEN);
