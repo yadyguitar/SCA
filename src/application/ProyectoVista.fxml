@@ -17,7 +17,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" text="Nuevo" />
+            <MenuItem onAction="#AbrirVentana" mnemonicParsing="false" text="Nuevo" />
             <MenuItem mnemonicParsing="false" text="Abrir…" />
             <Menu mnemonicParsing="false" text="Abrir reciente" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -68,7 +68,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="textoProyecto" alignment="CENTER" layoutX="76.0" onMouseClicked="#MostrarProyecto" prefHeight="36.0" prefWidth="55.0" text="Proyecto">
+            <Label fx:id="textoProyecto" alignment="CENTER" layoutX="76.0" onMouseClicked="#MostrarProyecto" prefHeight="36.0" prefWidth="62.0" text="Proyecto">
                <font>
                   <Font size="14.0" />
                </font>

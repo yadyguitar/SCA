@@ -51,6 +51,10 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	List< List<Float> > poligonos;
 	List<Float> coords;
 	List<Label> areas=new ArrayList<Label>();
+	@FXML
+	Label NombreProyecto =null;
+	@FXML
+	Label NombreImagen=null;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -63,7 +67,9 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		
 		System.out.println(url2);
 		subirImagen(url2);
-
+		
+		NombreProyecto.setText(pro.t3);
+		NombreImagen.setText("Minuto "+pro.t2);
 		
 		canvas.setCursor(Cursor.CROSSHAIR);
 		canvas.setOnMouseMoved(e->dibujaOnMove(e));

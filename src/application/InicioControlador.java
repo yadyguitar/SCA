@@ -2,14 +2,18 @@ package application;
 
 
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -24,6 +28,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class InicioControlador  implements Initializable,ControladorVentanas{
@@ -31,6 +37,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	
 	ScreensController myController; 
 	static public String t;
+	static public Integer id;
 	private int MAX =4;
 	private int i = 0;
 	private int j = 0;
@@ -55,11 +62,28 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	        //llamado desde el botón que existe en la vista.
 		 myController.setScreen(Framework.screen1ID);
 	 }
+	@FXML
+	private void AbrirVentana() throws IOException{
+			Stage principal = new Stage();
+			principal.initStyle(StageStyle.UNDECORATED);
+			Parent mainLayout = FXMLLoader.load(getClass().getResource("ProyectoNuevo.fxml"));
+	        Scene scene = new Scene(mainLayout);
+	        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
+			principal.getIcons().add(icon);
+	        
+	       // principal.setTitle("NuevoProyecto");
+	        principal.setScene(scene);
+	        principal.show();	
+
+		
+	}
 	
 	public void enviarProyecto(javafx.scene.input.MouseEvent e,String text){
 		
 		//System.out.println("Texto en inicioControlador:  "+text);
 		t=text;
+		Consultas c = new Consultas();
+		id=c.id_proyecto(text);
 		myController.unloadScreen(Framework.screen2ID);
 		myController.loadScreen(Framework.screen2ID, Framework.screen2File);
 		myController.setScreen(Framework.screen2ID);
@@ -99,9 +123,13 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	    	
 	    	//Se agrega el texto
 	        pictureRegion.getChildren().add(texto);
+	      
+			
 	        Text temp=(Text)pictureRegion.getChildren().get(1);
 	        pictureRegion.setOnMouseClicked(e-> enviarProyecto(e,temp.getText()));
-	       
+	        File directorio = new File("src\\application\\Proyectos\\"+temp.getText()); 
+	        directorio.mkdir(); 
+	        
 	        //Se posiciona el VBox
 	        pictureRegion.setAlignment(Pos.CENTER);
 	        pictureRegion.setMinSize(260, 230);

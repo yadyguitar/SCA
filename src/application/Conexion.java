@@ -21,7 +21,7 @@ public class Conexion {
     // DATOS PARA CONEXION CON BASE DE DATOS MYSQL
 
     private String USERNAME="root"; //EL MISMO QUE MYSQL
-    private String PASSWORD="8708278"; //EL MISMO QUE MYSQL 301194
+    private String PASSWORD="301194"; //EL MISMO QUE MYSQL 301194
     private String HOST="localhost"; 
     private String PORT="3306";
     private String DATABASE="sca"; //LA DATABASE A USAR

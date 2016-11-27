@@ -1,14 +1,37 @@
 package application;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +39,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.FileChooser.ExtensionFilter;
+import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 
 public class ProyectoControlador  implements Initializable,ControladorVentanas{
@@ -29,11 +59,16 @@ static public String t3; //nombre del proyecto
 	private int j = 0;
 	private int k=0;
 	VBox pictureRegion;
+	 InicioControlador ini= new InicioControlador();
+	 @FXML
+	 Label textoProyecto = null;
 	@FXML GridPane grid;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		textoProyecto.setText(ini.t);
 		agregaImagen();
+		
 		
 	}
 	public void setScreenParent(ScreensController screenParent){ 
@@ -58,6 +93,8 @@ static public String t3; //nombre del proyecto
 		
 	}
 	 
+
+	
 	public void enviarImagen(javafx.scene.input.MouseEvent e,Integer texto2, String texto3){
 		
 		System.out.println("Texto en Area:  "+texto2);
@@ -68,6 +105,50 @@ static public String t3; //nombre del proyecto
 		myController.setScreen(Framework.screen3ID);
 		
 	}
+	@FXML
+	private void AbrirVentana() throws IOException{
+		FileChooser fc = new FileChooser();
+		fc.setInitialDirectory(new File("C:\\cristales"));
+		fc.getExtensionFilters().addAll(new ExtensionFilter("PNG Images", "*.png"));
+				
+		List<File> selectedFiles = fc.showOpenMultipleDialog(null);
+				
+		if(selectedFiles!=null){
+			for(int i=0;i<selectedFiles.size();i++){
+				//System.out.println(selectedFiles.get(i).getAbsolutePath());  //ruta completa
+				//System.out.println(selectedFiles.get(i).getParentFile()); //ruta sin nombre
+				//System.out.println(selectedFiles.get(i).getName());  //Nombre
+				
+				String ruta = new String("application/Proyectos/"+ini.t+"/"+selectedFiles.get(i).getName());
+				
+				//System.out.println(ruta);
+				//mostrarImagen.setItems("1","3");
+				//.add(i, selectedFiles.get(i).getAbsolutePath());
+				//mostrarImagen.getItems().add(selectedFiles.get(i).getAbsolutePath());
+				
+				Path copy_from_1 = Paths.get(""+selectedFiles.get(i).getParentFile(), selectedFiles.get(i).getName());
+				
+		        Path copy_to_1 = Paths.get("C:/Users/Lalo/workspace/SCA/src/application/Proyectos/"+ ini.t, copy_from_1
+		            .getFileName().toString());
+		        try {
+		          Files.copy(copy_from_1, copy_to_1, REPLACE_EXISTING, COPY_ATTRIBUTES,
+		              NOFOLLOW_LINKS);
+		        } catch (IOException e) {
+		          System.err.println(e);
+		        }
+				
+		        Consultas c= new Consultas();
+		        System.out.println(ini.id);
+		        c.agregar_imagen(ini.id, 10, ruta);
+
+				
+			}
+		}
+		else{
+			System.out.println("El archivo es inválido");
+		}
+		
+	}
 
 	@FXML public void agregaImagen(){
         
@@ -76,7 +157,7 @@ static public String t3; //nombre del proyecto
 		//Consultas c=new Consultas();
 		//Los datos obtenidos se almacenan en una lista
         List<Integer> lista=new ArrayList<Integer>();
-        InicioControlador ini= new InicioControlador();
+       
         
         System.out.println("Texto en Proyecto:   "+ini.t);
         
@@ -91,7 +172,7 @@ static public String t3; //nombre del proyecto
 			pictureRegion= new VBox(10); 		
 			//Crea una imagen
 			final ImageView imv = new ImageView();
-	        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/imagen.png"));
+	        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes\\imagen.png"));
 	        imv.setImage(image2);
 	        imv.setFitWidth(120);
 	        imv.setFitHeight(118);
@@ -104,18 +185,27 @@ static public String t3; //nombre del proyecto
 	      //  Text temp=(Text)pictureRegion.getChildren().get(1);
 	        //pictureRegion.setOnMouseClicked(e-> enviarArea(e,temp.getText()));
 	        
-	        ComboBox<String> cb = new ComboBox<String>();
-	        cb.setPrefWidth(100);
-	        cb.setItems(FXCollections.observableArrayList("Minuto 10", "Minuto 20","Minuto 30","Minuto 40","Minuto 50","Minuto 60","Minuto 70","Minuto 80","Minuto 90","Minuto 100","Minuto 110","Minuto 120","Minuto 130","Minuto 140","Minuto 150","Minuto 160","Minuto 170","Minuto 180","Minuto 190","Minuto 200","Minuto 210","Minuto 220","Minuto 230","Minuto 240"));
-	        cb.setDisable(true);
-	        cb.setOpacity(1.8);
+	        //ComboBox<String> cb = new ComboBox<String>();
+	        //cb.setPrefWidth(100);
+	        //cb.setItems(FXCollections.observableArrayList("Minuto 10", "Minuto 20","Minuto 30","Minuto 40","Minuto 50","Minuto 60","Minuto 70","Minuto 80","Minuto 90","Minuto 100","Minuto 110","Minuto 120","Minuto 130","Minuto 140","Minuto 150","Minuto 160","Minuto 170","Minuto 180","Minuto 190","Minuto 200","Minuto 210","Minuto 220","Minuto 230","Minuto 240"));
+	        //cb.setDisable(true);
+	        //cb.setOpacity(1.8);
 	       
-	        cb.setValue("Minuto " +String.valueOf(lista.get(k)));   //Valor a pasar
-	       // texto.setText(lista.get(k));
-	        pictureRegion.getChildren().addAll(cb);
+	        
+	        //cb.setValue("Minuto " +String.valueOf(lista.get(k)));   //Valor a pasar
+	        Label l = new Label();
+	        l.setText("Minuto "+String.valueOf(lista.get(k)));
+	        // texto.setText(lista.get(k));
+	        pictureRegion.getChildren().addAll(l);
 	        Integer min=lista.get(k);
 	        pictureRegion.setOnMouseClicked(e-> enviarImagen(e,min,ini.t));
 	       
+	       // Consultas co = new Consultas();
+	        //String ruta = new String("imagenes\\cristales\\min"+min+".png");
+	        //String origen = "origen.txt";
+	       	//String destino = "destino.txt";
+	      
+	        
 	        //Se agrega VBox al grid en columna i fila j
 	        grid.add(pictureRegion, i, j);
 	        i++;
@@ -134,6 +224,7 @@ static public String t3; //nombre del proyecto
 		tam=0;
 		
 	}
+	
 	
 
 }

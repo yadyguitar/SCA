@@ -26,12 +26,12 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto" prefHeight="36.0" prefWidth="70.0" text="Proyecto">
+            <Label fx:id="NombreProyecto" alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto" prefHeight="36.0" prefWidth="70.0" text="Proyecto">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="145.0" prefHeight="36.0" prefWidth="70.0" text="Imagen">
+            <Label fx:id="NombreImagen" alignment="CENTER" layoutX="145.0" prefHeight="36.0" prefWidth="70.0" text="Imagen">
                <font>
                   <Font size="14.0" />
                </font>
