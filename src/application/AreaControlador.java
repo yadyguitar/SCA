@@ -180,13 +180,9 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 
 	 public void seleccion(MouseEvent e){
-		 
 		 for (Node node: area_results.getChildren()){
-			 
 			 if(node.getBoundsInParent().contains(e.getX(), e.getY()))
                  System.out.println( "Node: " + node + " at " + GridPane.getRowIndex( node) + "/" + GridPane.getColumnIndex( node));
-		 
-		 
 		 }
 	 }
 }
