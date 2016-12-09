@@ -10,13 +10,14 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProyectoControlador">
-  <children>
-    <MenuBar VBox.vgrow="NEVER">
+<BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProyectoControlador">
+   <top>
+    
+    <MenuBar BorderPane.alignment="CENTER">
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" text="Nuevo" />
+            <MenuItem onAction="#AbrirVentana" mnemonicParsing="false" text="Nuevo" />
             <MenuItem mnemonicParsing="false" text="Abrir…" />
             <Menu mnemonicParsing="false" text="Abrir reciente" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -47,23 +48,27 @@
         </Menu>
       </menus>
     </MenuBar>
-      <ScrollPane minHeight="549" prefWidth="1200.0">
-        <content>
-                  <GridPane fx:id="grid" layoutX="48.0" layoutY="48.0" onMouseClicked="#agregaImagen" prefHeight="456.0" prefWidth="1066.0">
-                    <children>
-                       
-                     </children>
-                  </GridPane>
-        </content>
-      </ScrollPane>
-      <AnchorPane prefHeight="28.0" prefWidth="1200.0">
+   </top>
+  <center>
+  
+  <ScrollPane fx:id="scroll" hbarPolicy="NEVER" prefHeight="551.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+      <content>
+         <GridPane fx:id="grid" alignment="CENTER" gridLinesVisible="true" prefHeight="535.0" prefWidth="1200.0">
+           
+         </GridPane>
+      </content>
+   </ScrollPane>
+   </center>
+     <bottom>
+     
+     	 <AnchorPane prefHeight="35.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-         <Label onMouseClicked="#MostrarInicio"  alignment="CENTER" prefHeight="20.0" prefWidth="70.0" text="Inicio">
+         <Label alignment="CENTER" onMouseClicked="#MostrarInicio" prefHeight="36.0" prefWidth="70.0" text="Inicio">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="textoProyecto"  alignment="CENTER" onMouseClicked="#MostrarProyecto" layoutX="76.0" text="Proyecto">
+            <Label fx:id="textoProyecto" alignment="CENTER" layoutX="76.0" onMouseClicked="#MostrarProyecto" prefHeight="36.0" prefWidth="62.0" text="Proyecto">
                <font>
                   <Font size="14.0" />
                </font>
@@ -71,5 +76,5 @@
             
          </children>
       </AnchorPane>
-  </children>
-</VBox>
+     </bottom>
+</BorderPane>

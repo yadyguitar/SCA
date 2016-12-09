@@ -1,18 +1,36 @@
 package application;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 
 
@@ -21,28 +39,41 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	@FXML ScrollPane canvas_area;
 	@FXML GridPane area_results;
 	ScreensController myController; 
-	
-	Image img;
+    ProyectoControlador pro= new ProyectoControlador();
+    InicioControlador ini = new InicioControlador();
+
+	static Image img;
 	int cont =0;
 	Canvas canvas;
 	GraphicsContext gc;
-	String url;
-	int band=0;
+	String url2;
+	int band=0,indice=-1;
 	List< List<Float> > poligonos;
 	List<Float> coords;
-	List<Label> areas=new ArrayList<Label>();
-	
+	List<Label> areas=new ArrayList<Label>();http://www.heaventools.com/overview.htm
+	@FXML
+	Label NombreProyecto =null;
+	@FXML
+	Label NombreImagen=null;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		
 		
 		inicializaCanvas();
-		subirImagen("application/imagenes/cristal.png");
+		Consultas co = new Consultas();
+		System.out.println(pro.t2);
+		url2=co.ruta_imagen(pro.t2, pro.t3); //obtengo la ruta pasando como parámetros el min y el nombre de proyecto
 		
+		System.out.println(url2);
+		subirImagen(url2);
 		
-		canvas.setOnMouseClicked(e->dibujaLinea(e));
+		NombreProyecto.setText(pro.t3);
+		NombreImagen.setText("Minuto "+pro.t2);
+		
+		canvas.setCursor(Cursor.CROSSHAIR);
 		canvas.setOnMouseMoved(e->dibujaOnMove(e));
+		canvas.setOnMouseClicked(e->dibujaLinea(e));
 		area_results.setOnMouseClicked(e -> seleccion(e));
 		canvas_area.setContent(canvas);
 	}
@@ -64,11 +95,25 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		myController.setScreen(Framework.screen3ID);
 	}
 	
+	@FXML
+	public void cancelar(KeyEvent e){
+		
+		if(e.getCode()==KeyCode.ESCAPE){
+			coords.clear();
+			actualiza();
+		}
+		
+	}
 	
-	 public void subirImagen(String url){
+	 public boolean subirImagen(String url){
+		 try{
 		 img=new Image(url);
 		 gc.drawImage(img, 0, 0);
-		 
+		 }catch (Exception e) {
+			System.out.println(e.getMessage());
+			 return false;
+		}
+		return true;
 	 }
 	 public void inicializaCanvas(){
 		 canvas= new Canvas(1200,1200);
@@ -95,6 +140,8 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 public void dibujaLinea(MouseEvent e){
 		 band=1;
+		 indice=-1;http://www.heaventools.com/overview.htm
+		 gc.beginPath();
 		 gc.lineTo(e.getX(),e.getY());
 		 gc.stroke();
 		 coords.add((float)e.getX());
@@ -142,7 +189,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 
 	 public void actualiza(){
 		 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		 gc.drawImage(img, 0, 0);		
+		 gc.drawImage(img, 0, 0);	
 		 dibujaPoligonos();
 		 if (coords.size()>=4){
 			 gc.beginPath();
@@ -173,16 +220,91 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 
 	 public void agrega_campo(){
-		 
 		 area_results.addRow(areas.size()-1,areas.get(areas.size()-1));
-		System.out.println(area_results.getChildren());
+		 area_results.getChildren().get(areas.size()-1).cursorProperty().set(Cursor.CLOSED_HAND);
 		 
 	 }
 	 
 	 public void seleccion(MouseEvent e){
+
+		 actualiza();
+		 int j;
+		 		 
 		 for (Node node: area_results.getChildren()){
-			 if(node.getBoundsInParent().contains(e.getX(), e.getY()))
-                 System.out.println( "Node: " + node + " at " + GridPane.getRowIndex( node) + "/" + GridPane.getColumnIndex( node));
+			 
+			 if(node.getBoundsInParent().contains(e.getX(), e.getY())){
+				 indice=area_results.getRowIndex(node);
+				 area_results.getChildren().get(indice).setStyle("-fx-background-color: #8fbc8f;");
+				 
+				 List<Float> temp=poligonos.get(indice);
+				 
+				 gc.setStroke(Color.GREEN);
+				 gc.setLineWidth(3);
+						gc.beginPath();
+						for (j=1;j<temp.size();j+=2){
+							gc.lineTo(temp.get(j-1), temp.get(j));
+							gc.stroke();					
+						}
+				 gc.closePath();
+				 gc.setStroke(Color.BLACK);
+				 gc.setLineWidth(1);
+				 
+			 }
+                 
+			 
+		 
 		 }
 	 }
+	 
+	 
+	 public void eliminar(){
+		 if(indice!=-1){
+		 System.out.println("eliminaras el indice: "+indice+"?");
+		 //pasar valores uno por uno en el grid
+		 int tam=area_results.getChildren().size();
+		 
+		 for (int i=indice;i<tam-1;i++){
+			 Label temp=(Label)area_results.getChildren().get(i);
+			 temp.setText( ((Label)area_results.getChildren().get(i+1)).getText() );
+		 }
+		 area_results.getChildren().remove(tam-1);
+		 /////////////////////////////////////////
+		 areas.remove(indice);
+		 poligonos.remove(indice);
+		 
+		 
+		 indice=-1;
+		 actualiza();
+
+		 }
+	 }
+	 public void guardar(){
+		 int id_imagen=new Consultas().id_imagen(url2);
+		 if(saveToFile()){
+		 if(new Consultas().agregar_poligonos(id_imagen, areas)){
+			 System.out.println("Se guardó correctamente (:");
+		 }else{
+			 System.out.println("Oh oh... algo salió mal");
+			 
+		 }
+		 }
+	 }
+	 
+	 public boolean saveToFile() {
+		 actualiza();
+		 WritableImage wim = new WritableImage(1200, 1200);
+		 gc.getCanvas().snapshot(null,wim);
+		 File file = new File("bin/"+url2);
+		 try {
+			 	BufferedImage bi =SwingFXUtils.fromFXImage((Image)wim, null); 
+	            ImageIO.write(bi, "png", file);
+	            return true;
+	        } catch (Exception s) {
+	        	System.out.println("Ups!... errorcito jejeje ");
+	        	return false;
+	        }
+		 
+         
+    }
+		  
 }

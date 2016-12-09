@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.*?>
@@ -14,10 +16,52 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.ScrollPane?>
 
-<VBox fx:id="anchorpane" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AreaControlador">
-  <children>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AreaControlador">
+   <bottom>
+     
+            <AnchorPane prefHeight="35.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" onMouseClicked="#MostrarInicio" prefHeight="36.0" prefWidth="70.0" text="Inicio">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="NombreProyecto" alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto" prefHeight="36.0" prefWidth="70.0" text="Proyecto">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="NombreImagen" alignment="CENTER" layoutX="145.0" prefHeight="36.0" prefWidth="70.0" text="Imagen">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <GridPane BorderPane.alignment="CENTER" hgap="10" >
+         <children>
+         		<ScrollPane GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="canvas_area" maxHeight="540.0" maxWidth="1000" onKeyPressed="#cancelar"/>
+         		<ScrollPane GridPane.columnIndex="2" GridPane.rowIndex="1" maxHeight="540.0" minWidth="150">
+            <content>
+            			<AnchorPane>
+               <children>
+                              <GridPane alignment="CENTER"  fx:id="area_results" maxHeight="551.0" style="-fx-font-size:14" vgap="5" />
+               </children>
+                        </AnchorPane>
+            </content>
+         		</ScrollPane>
+           </children>
+      	
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </GridPane>
+   </center>
+   <top>
     
-    <MenuBar VBox.vgrow="NEVER">
+          <MenuBar  BorderPane.alignment="CENTER">
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
@@ -25,7 +69,7 @@
             <MenuItem mnemonicParsing="false" text="Abrir…" />
             <Menu mnemonicParsing="false" text="Abrir reciente" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Guardar" />
+            <MenuItem mnemonicParsing="false" text="Guardar" onAction="#guardar"/>
             <MenuItem mnemonicParsing="false" text="Guardar como..." />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Cerrar" />
@@ -39,7 +83,7 @@
             <MenuItem mnemonicParsing="false" text="Cortar" />
             <MenuItem mnemonicParsing="false" text="Copiar" />
             <MenuItem mnemonicParsing="false" text="Pegar" />
-            <MenuItem mnemonicParsing="false" text="Eliminar" />
+            <MenuItem mnemonicParsing="false" text="Eliminar" onAction="#eliminar"/>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Seleccionar todo" />
             <MenuItem mnemonicParsing="false" text="Deseleccionar todo" />
@@ -52,46 +96,5 @@
         </Menu>
       </menus>
     </MenuBar>
-      <AnchorPane prefHeight="548.0" prefWidth="1200.0">
-         <children>
-        
-          
-      	<HBox spacing="20">
-           <children>
-         		<ScrollPane fx:id="canvas_area" maxHeight="590" maxWidth="1000" />
-         		<ScrollPane maxHeight="600" minWidth="150">
-            <content>
-            			<AnchorPane>
-               <children>
-                              <GridPane fx:id="area_results" style="-fx-font-size:14" vgap="5" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" />
-               </children>
-                        </AnchorPane>
-            </content>
-         		</ScrollPane>
-           </children>
-      	</HBox>
-         </children>
-      </AnchorPane>
-     
-      <AnchorPane prefHeight="35.0" prefWidth="1200.0">
-         <children>
-            <Label alignment="CENTER" onMouseClicked="#MostrarInicio" prefHeight="31.0" prefWidth="70.0" text="Inicio">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto" prefHeight="31.0" prefWidth="70.0" text="Proyecto">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="145.0" prefHeight="31.0" prefWidth="70.0" text="Imagen">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-     
-  </children>
-</VBox>
+   </top>
+</BorderPane>

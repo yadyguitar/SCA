@@ -10,14 +10,14 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
-  <children>
+<BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
+   <top>
     
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar BorderPane.alignment="CENTER">
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" text="Nuevo" />
+            <MenuItem onAction="#AbrirVentana" mnemonicParsing="false" text="Nuevo" />
             <MenuItem mnemonicParsing="false" text="Abrir…" />
             <Menu mnemonicParsing="false" text="Abrir reciente" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -48,30 +48,28 @@
         </Menu>
       </menus>
     </MenuBar>
+   </top>
+  <center>
   
-      <ScrollPane prefHeight="551.0" prefWidth="1200.0">
-        <content>
-          
-                  <GridPane fx:id="grid" layoutX="48.0" layoutY="48.0" onMouseClicked="#agregaProyecto" prefHeight="456.0" prefWidth="1066.0">
-          
-                     <children>
-                       
-                     </children>
-                  </GridPane>
-              
-        </content>
-      </ScrollPane>
+  <ScrollPane fx:id="scroll" hbarPolicy="NEVER" prefHeight="551.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+      <content>
+         <GridPane fx:id="grid" alignment="CENTER" gridLinesVisible="true" prefHeight="535.0" prefWidth="1200.0">
+           
+         </GridPane>
+      </content>
+   </ScrollPane>
+   </center>
+     <bottom>
      
-       <AnchorPane prefHeight="28.0" prefWidth="1200.0">
+         <AnchorPane prefHeight="35.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
           
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="70.0" text="Inicio">
+           <Label alignment="CENTER" onMouseClicked="#MostrarInicio" prefHeight="36.0" prefWidth="70.0" text="Inicio">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-     
-  </children>
-</VBox>
+   </bottom>
+</BorderPane>
