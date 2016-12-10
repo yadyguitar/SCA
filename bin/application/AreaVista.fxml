@@ -66,28 +66,14 @@
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" text="Nuevo" />
-            <MenuItem mnemonicParsing="false" text="Abrir…" />
-            <Menu mnemonicParsing="false" text="Abrir reciente" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Guardar" onAction="#guardar"/>
-            <MenuItem mnemonicParsing="false" text="Guardar como..." />
+            <MenuItem mnemonicParsing="false" text="Guardar Cambios" onAction="#guardar"/>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Cerrar" />
           </items>
-        </Menu>
+        </Menu> 
         <Menu mnemonicParsing="false" text="Edición">
           <items>
-            <MenuItem mnemonicParsing="false" text="Deshacer" />
-            <MenuItem mnemonicParsing="false" text="Rehacer" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cortar" />
-            <MenuItem mnemonicParsing="false" text="Copiar" />
-            <MenuItem mnemonicParsing="false" text="Pegar" />
             <MenuItem mnemonicParsing="false" text="Eliminar" onAction="#eliminar"/>
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Seleccionar todo" />
-            <MenuItem mnemonicParsing="false" text="Deseleccionar todo" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Ayuda">

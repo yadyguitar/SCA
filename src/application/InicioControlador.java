@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.ResourceBundle.Control;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +25,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+
 
 
 public class InicioControlador  implements Initializable,ControladorVentanas{
@@ -82,7 +86,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 
 				//Crea una imagen
 				final ImageView imv = new ImageView();
-		        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/carpeta.png"));
+		        final Image image2 = new Image(Framework.class.getResourceAsStream("imagenes/carpeta2.png"));
 		        imv.setImage(image2);
 		        imv.setFitWidth(160);
 		        imv.setFitHeight(180);
@@ -92,7 +96,9 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		        
 		        //Crea el texto correspondiente a la carpeta
 		        Text texto = new Text();
+		        texto.setStyle("-fx-font: NORMAL 18 Tahoma;");
 		        texto.setText(lista.get(k));
+		        texto.wrappingWidthProperty();
 		    	
 		    	//Se agrega el texto
 		        pictureRegion.getChildren().add(texto);
@@ -106,6 +112,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		        
 		        //Se agrega VBox al grid en columna i fila j
 		        grid.add(pictureRegion, i, j);
+		        
 		        
 		        i++;
 		        //Si ya son 4 columnas

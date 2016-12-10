@@ -34,6 +34,7 @@ public class Framework extends Application {
 		//icono parte superior ventana, y en parte inferior barra de tareas
 		Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
 		principal.getIcons().add(icon);
+		//principal.setMaximized(true);
 		
         principal.show();
     }
