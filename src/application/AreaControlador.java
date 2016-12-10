@@ -33,6 +33,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	@FXML GridPane area_results;
 	@FXML Label NombreProyecto =null;
 	@FXML Label NombreImagen=null;
+	@FXML Label inicio;
 	ScreensController myController; 
     ProyectoControlador pro= new ProyectoControlador();
     InicioControlador ini = new InicioControlador();
@@ -60,8 +61,11 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		//System.out.println(url2);
 		subirImagen(url2);
 		
-		NombreProyecto.setText(pro.t3);
-		NombreImagen.setText("Minuto "+pro.t2);
+		inicio.setCursor(Cursor.CLOSED_HAND);
+		NombreProyecto.setText(" > "+pro.t3);
+		NombreProyecto.setCursor(Cursor.CLOSED_HAND);
+		NombreImagen.setText(" > Minuto "+pro.t2);
+		NombreImagen.setCursor(Cursor.CLOSED_HAND);
 		
 		canvas.setCursor(Cursor.CROSSHAIR);
 		canvas.setOnMouseMoved(e->dibujaOnMove(e));
@@ -76,6 +80,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	//Funci�n que cambia a la vista inicio-----------------------------------------------------
 	@FXML
 	 private void MostrarInicio() {
+		
 		 myController.setScreen(Framework.screen1ID);
 	 }
 	//Funci�n que cambia a la vista proyecto---------------------------------------------------

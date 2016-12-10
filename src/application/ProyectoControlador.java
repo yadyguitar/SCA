@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,14 +48,16 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 	VBox pictureRegion;
 	
 	//Variables del fxml------------------------------------------------------------------------------
-	@FXML Label textoProyecto = null;
+	@FXML Label textoProyecto;
 	@FXML GridPane grid;
-	
+	@FXML Label inicio;
 	//Funci�n inicializadora-------------------------------------------------------------------------
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		textoProyecto.setText(ini.t);   //Guardo el texto del proyecto seleccionado
+		textoProyecto.setText(" > "+ini.t);   //Guardo el texto del proyecto seleccionado
+		inicio.setCursor(Cursor.CLOSED_HAND);
+		textoProyecto.setCursor(Cursor.CLOSED_HAND);
 		try {
 			agregaImagen();
 		} catch (FileNotFoundException e) {
@@ -201,6 +204,10 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		        c.agregar_imagen(ini.id, contador, ruta);
 		       
 			}
+			myController.unloadScreen(Framework.screen2ID);
+			myController.loadScreen(Framework.screen2ID, Framework.screen2File);
+			myController.setScreen(Framework.screen2ID);
+			agregaImagen();
 		}
 		else{
 			System.out.println("El archivo es inv�lido");

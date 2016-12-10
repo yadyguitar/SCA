@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.layout.HBox?>
 
 <BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
    <top>
@@ -61,15 +62,15 @@
    </center>
      <bottom>
      
-         <AnchorPane prefHeight="35.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <HBox  prefHeight="25.0" >
          <children>
           
-           <Label alignment="CENTER" onMouseClicked="#MostrarInicio" prefHeight="36.0" prefWidth="70.0" text="Inicio">
+           <Label fx:id="inicio" onMouseClicked="#MostrarInicio" text="  Inicio" >
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
          </children>
-      </AnchorPane>
+      </HBox>
    </bottom>
 </BorderPane>

@@ -15,10 +15,10 @@ public class Framework extends Application {
     public static String screen2File = "ProyectoVista.fxml";
     public static String screen3ID = "Imagen";
     public static String screen3File = "AreaVista.fxml"; 
-    
+    public static Stage principal;
     @Override
     public void start(Stage primaryStage) {
-        
+        principal=primaryStage;
         ScreensController mainContainer = new ScreensController();
         mainContainer.loadScreen(this.screen1ID, this.screen1File);
         mainContainer.setScreen(this.screen1ID);
@@ -27,17 +27,17 @@ public class Framework extends Application {
         root.getChildren().addAll(mainContainer);
         
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
+        principal.setScene(scene);
         
-        primaryStage.setTitle("Software Crystal Analysis");
+        principal.setTitle("Software Crystal Analysis");
 		
 		//icono parte superior ventana, y en parte inferior barra de tareas
 		Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
-		primaryStage.getIcons().add(icon);
+		principal.getIcons().add(icon);
 		
-        primaryStage.show();
+        principal.show();
     }
-
+ 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be

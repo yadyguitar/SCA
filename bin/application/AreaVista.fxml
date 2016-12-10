@@ -15,29 +15,30 @@
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AreaControlador">
    <bottom>
      
-            <AnchorPane prefHeight="35.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+            <HBox prefHeight="25">
          <children>
-            <Label alignment="CENTER" onMouseClicked="#MostrarInicio" prefHeight="36.0" prefWidth="70.0" text="Inicio">
+            <Label fx:id="inicio" alignment="CENTER" onMouseClicked="#MostrarInicio"  text="  Inicio">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="NombreProyecto" alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto" prefHeight="36.0" prefWidth="70.0" text="Proyecto">
+            <Label fx:id="NombreProyecto" alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto"  text="Proyecto">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="NombreImagen" alignment="CENTER" layoutX="145.0" prefHeight="36.0" prefWidth="70.0" text="Imagen">
+            <Label fx:id="NombreImagen" alignment="CENTER" layoutX="145.0" text="Imagen">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
          </children>
-      </AnchorPane>
+      </HBox>
    </bottom>
    <center>
       <GridPane BorderPane.alignment="CENTER" hgap="10" >

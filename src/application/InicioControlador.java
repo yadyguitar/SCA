@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -38,11 +39,14 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	//Variables del fxml---------------------------------------------------------------------------
 	@FXML GridPane grid;
 	@FXML ScrollPane scroll;
+	@FXML Label inicio;
 	//Funci�n inicial------------------------------------------------------------------------------
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		agregaProyecto();
+		
+		inicio.setCursor(Cursor.CLOSED_HAND);
 	}
 	//Funci�n que sirve para mandar una vista-----------------------------------------------------
 	public void setScreenParent(ScreensController screenParent){ 
