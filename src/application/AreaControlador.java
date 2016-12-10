@@ -259,7 +259,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 actualiza();
 		 WritableImage wim = new WritableImage(1200, 1200);
 		 gc.getCanvas().snapshot(null,wim);
-		 File file = new File("bin/"+url2);
+		 File file = new File(url2);
 		 try {
 			 	BufferedImage bi =SwingFXUtils.fromFXImage((Image)wim, null); 
 	            ImageIO.write(bi, "png", file);
