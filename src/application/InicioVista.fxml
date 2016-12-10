@@ -11,7 +11,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane    prefHeight="600"  prefWidth="1000" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
+<BorderPane    prefHeight="600"  prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
    <top >
     
     <MenuBar  minWidth="-Infinity" >
@@ -46,7 +46,7 @@
   <center>
   
   <ScrollPane fx:id="scroll"  fitToWidth="true" fitToHeight="true" >
-         <GridPane fx:id="grid"  gridLinesVisible="true" >
+         <GridPane fx:id="grid"   >
          </GridPane>
    </ScrollPane>
    </center>

@@ -35,7 +35,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	ScreensController myController; 
 	static public String t; 	//Sirve para almacenar el nombre del proyecto cuando es seleccionado
 	static public Integer id; 	//Almacena el id del proyecto seleccionado
-	private int MAX =4;			//Es las columnas que contiene el grid
+	private int MAX =5;			//Es las columnas que contiene el grid
 	private int i = 0;			//para moverse por las columnas del grid
 	private int j = 0;			//para moverse por las filas del grid
 	private int k=0;			//Un contador para recorrer las carpetas totales
@@ -108,7 +108,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		        	        										//temp.getText(), obtengo el nombre del proyecto donde di click
 		        
 		        pictureRegion.setAlignment(Pos.CENTER);
-		        pictureRegion.setMinSize(260, 230);
+		        pictureRegion.setMinSize(240, 210);
 		        
 		        //Se agrega VBox al grid en columna i fila j
 		        grid.add(pictureRegion, i, j);

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GraficasController">
+<top>
+</top>
+
+<center>
+
+<LineChart  fx:id="m0" nodeOrientation="RIGHT_TO_LEFT"  animated="false" fx:id="flujo" prefHeight="200" prefWidth="720">
+        			<xAxis><NumberAxis fx:id="xm0"  TickUnit="10" lowerBound="0"  upperBound="60"   /></xAxis>
+       				<yAxis><NumberAxis fx:id="ym0" TickUnit="20" lowerBound="0"  upperBound="100"   /></yAxis>
+</LineChart>
+
+</center>
+
+<buttom>
+</buttom>
+	<!-- TODO Add Nodes -->
+</BorderPane>
+

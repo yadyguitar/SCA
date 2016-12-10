@@ -34,6 +34,16 @@
             
           </items>
         </Menu>
+         <Menu mnemonicParsing="false"  text="Gráficas">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Momento 0" />
+            <MenuItem mnemonicParsing="false" text="Momento 1" />
+            <MenuItem mnemonicParsing="false" text="Momento 2" />
+            <MenuItem mnemonicParsing="false" text="Momento 3" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem  mnemonicParsing="false" text="Todos los momentos"/>
+          </items>
+        </Menu>
         <Menu mnemonicParsing="false" text="Ayuda">
           <items>
             <MenuItem mnemonicParsing="false" text="Acerca de SCA" />
@@ -44,12 +54,10 @@
    </top>
   <center>
   
-  <ScrollPane fx:id="scroll" hbarPolicy="NEVER" prefHeight="551.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
-      <content>
-         <GridPane fx:id="grid" alignment="CENTER" gridLinesVisible="true" prefHeight="535.0" prefWidth="1200.0">
+  <ScrollPane fx:id="scroll" hbarPolicy="NEVER" >
+         <GridPane fx:id="grid" alignment="CENTER">
            
          </GridPane>
-      </content>
    </ScrollPane>
    </center>
      <bottom>

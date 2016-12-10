@@ -41,7 +41,7 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 	
 	ScreensController myController; 
 	private int contador = 0;
-	private int MAX =4;		//El m�ximo de columnas del grid
+	private int MAX =5;		//El m�ximo de columnas del grid
 	private int i = 0;		//Sirve para recorrer las columnas
 	private int j = 0;		//Sirve para recorrer las filas
 	private int k=0;		//Sirve como contador para imprimir todas las im�genes del proyecto
@@ -113,8 +113,8 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		        String tx = new String(co.ruta_imagen(lista.get(k), ini.t));
 		        
 				ImageView imv = new ImageView();
-		        imv.setFitWidth(180);
-		        imv.setFitHeight(178);
+		        imv.setFitWidth(160);
+		        imv.setFitHeight(120);
 		        imv.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,61,0.8), 5, 1, 0.5, 0.5); ");
 		        InputStream is = new FileInputStream(tx);
 		        Image image2 = new Image(is);
@@ -123,7 +123,7 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		        
 		        //Se agregan los elementos al grid
 		        pictureRegion.setAlignment(Pos.CENTER);
-		        pictureRegion.setMinSize(260, 230);
+		        pictureRegion.setMinSize(240, 210);
 		        pictureRegion.getChildren().add(imv);
 		        pictureRegion.getChildren().addAll(l);
 		        
