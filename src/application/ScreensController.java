@@ -13,10 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-/**
- *
- * @author Angie
- */
 public class ScreensController  extends StackPane {
     //Holds the screens to be displayed
 
@@ -90,21 +86,6 @@ public class ScreensController  extends StackPane {
             return false;
         }
 
-
-        /*Node screenToRemove;
-         if(screens.get(name) != null){   //screen loaded
-         if(!getChildren().isEmpty()){    //if there is more than one screen
-         getChildren().add(0, screens.get(name));     //add the screen
-         screenToRemove = getChildren().get(1);
-         getChildren().remove(1);                    //remove the displayed screen
-         }else{
-         getChildren().add(screens.get(name));       //no one else been displayed, then just show
-         }
-         return true;
-         }else {
-         System.out.println("screen hasn't been loaded!!! \n");
-         return false;
-         }*/
     }
 
     //This method will remove the screen with the given name from the collection of screens

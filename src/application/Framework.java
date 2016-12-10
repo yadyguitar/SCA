@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 public class Framework extends Application {
     
+	//Vistas que existen en el proyecto-----------------------------------------
     public static String screen1ID = "Inicio";
     public static String screen1File = "InicioVista.fxml";
     public static String screen2ID = "Proyectos";
@@ -19,25 +20,17 @@ public class Framework extends Application {
     public void start(Stage primaryStage) {
         
         ScreensController mainContainer = new ScreensController();
-        
-
         mainContainer.loadScreen(this.screen1ID, this.screen1File);
         mainContainer.loadScreen(this.screen2ID,this.screen2File);
         mainContainer.loadScreen(this.screen3ID, this.screen3File);
         mainContainer.setScreen(this.screen1ID);
 
-       /* mainContainer.loadScreen(Framework.screen1ID, Framework.screen1File);
-        mainContainer.loadScreen(Framework.screen2ID, Framework.screen2File);
-        mainContainer.loadScreen(Framework.screen3ID, Framework.screen3File);
-        mainContainer.setScreen(Framework.screen3ID);
-        */
-  
-        
         Group root = new Group();
         root.getChildren().addAll(mainContainer);
         
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        
         primaryStage.setTitle("Software Crystal Analysis");
 		
 		//icono parte superior ventana, y en parte inferior barra de tareas
