@@ -1,16 +1,11 @@
 package application;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-
 import javax.imageio.ImageIO;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,17 +15,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 
 
@@ -38,10 +29,11 @@ public class AreaControlador implements Initializable, ControladorVentanas
 {
 	@FXML ScrollPane canvas_area;
 	@FXML GridPane area_results;
+	@FXML Label NombreProyecto =null;
+	@FXML Label NombreImagen=null;
 	ScreensController myController; 
     ProyectoControlador pro= new ProyectoControlador();
     InicioControlador ini = new InicioControlador();
-
 	static Image img;
 	int cont =0;
 	Canvas canvas;
@@ -51,22 +43,20 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	List< List<Float> > poligonos;
 	List<Float> coords;
 	List<Label> areas=new ArrayList<Label>();
-	@FXML
-	Label NombreProyecto =null;
-	@FXML
-	Label NombreImagen=null;
+	
 	@Override
+	//Función que inicializa la vista-----------------------------------------------------------
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		
 		
 		inicializaCanvas();
 		Consultas co = new Consultas();
-		System.out.println(pro.t2);
-		url2=co.ruta_imagen(pro.t2, pro.t3); //obtengo la ruta pasando como parÃ¡metros el min y el nombre de proyecto
+		//System.out.println(pro.t2);
+		url2=co.ruta_imagen(pro.t2, pro.t3); //obtengo la ruta pasando como parametros el min y el nombre de proyecto
 		
-		System.out.println(url2);
-		subirImagen(url2);
+		//System.out.println(url2);
+		subirImagen("application/"+url2);
 		
 		NombreProyecto.setText(pro.t3);
 		NombreImagen.setText("Minuto "+pro.t2);
@@ -77,34 +67,26 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		area_results.setOnMouseClicked(e -> seleccion(e));
 		canvas_area.setContent(canvas);
 	}
-	
+	//Función que cambia de vista---------------------------------------------------------------
 	public void setScreenParent(ScreensController screenParent){ 
         myController = screenParent; 
      }
+	//Función que cambia a la vista inicio-----------------------------------------------------
 	@FXML
 	 private void MostrarInicio() {
-	        //llamado desde el botï¿½n que existe en la vista.
 		 myController.setScreen(Framework.screen1ID);
 	 }
+	//Función que cambia a la vista proyecto---------------------------------------------------
 	@FXML
 	private void MostrarProyecto(){
 		myController.setScreen(Framework.screen2ID);
 	}
+	//Función que cambia a la vista imagen----------------------------------------------------
 	@FXML
 	private void MostrarImagen(){
 		myController.setScreen(Framework.screen3ID);
 	}
-	
-	@FXML
-	public void cancelar(KeyEvent e){
-		
-		if(e.getCode()==KeyCode.ESCAPE){
-			coords.clear();
-			actualiza();
-		}
-		
-	}
-	
+	//Función que crea la imagen a seleccionar
 	 public boolean subirImagen(String url){
 		 try{
 		 img=new Image(url);
@@ -115,6 +97,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		}
 		return true;
 	 }
+	 
 	 public void inicializaCanvas(){
 		 canvas= new Canvas(1200,1200);
 		 gc=canvas.getGraphicsContext2D(); 
@@ -132,15 +115,13 @@ public class AreaControlador implements Initializable, ControladorVentanas
 				 gc.lineTo(coords.get(coords.size()-2),coords.get(coords.size()-1));
 				 gc.lineTo(e.getX(),e.getY());
 				 gc.stroke();
-				 
 			 }
-			
 		 }
-		 
 	 }
+	 
 	 public void dibujaLinea(MouseEvent e){
 		 band=1;
-		 indice=-1;
+		 indice=-1;http://www.heaventools.com/overview.htm
 		 gc.beginPath();
 		 gc.lineTo(e.getX(),e.getY());
 		 gc.stroke();
@@ -149,7 +130,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 //System.out.println(coords);
 		 if (e.getClickCount()==2){
 			// System.out.println("doble click");
-			 //lo de abajo probable en la funciï¿½n de actualizar
+			 //lo de abajo probable en la funcion de actualizar
 			 actualiza();
 			 cierraArea();
 			 //coords.clear();
@@ -157,20 +138,6 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 }
 		 
 	 }
-	 
-	 public void cierraArea(){
-		 coords.remove(coords.size()-1); coords.remove(coords.size()-1);
-		 coords.add(coords.size(),coords.get(0)); coords.add(coords.size(),coords.get(1));
-		 gc.lineTo(coords.get(0),coords.get(1));
-		 gc.stroke();
-		 poligonos.add(coords);
-		 //System.out.println(poligonos);
-		 
-		 calculaArea();
-		 coords=new ArrayList<Float>();  //libero el antiguo coords, y ahora poligono lo tiene
-		 gc.beginPath();
-	 }
-		 	
 	 
 	 public void dibujaPoligonos(){
 		 
@@ -197,9 +164,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 				 gc.lineTo(coords.get(i-1), coords.get(i));
 				 gc.stroke();
 			 }
-			
 		 }
-		 
 	 }
 	 
 	 public void calculaArea(){
@@ -239,26 +204,22 @@ public class AreaControlador implements Initializable, ControladorVentanas
 				 
 				 gc.setStroke(Color.GREEN);
 				 gc.setLineWidth(3);
-						gc.beginPath();
-						for (j=1;j<temp.size();j+=2){
-							gc.lineTo(temp.get(j-1), temp.get(j));
-							gc.stroke();					
-						}
+				 gc.beginPath();
+				 for (j=1;j<temp.size();j+=2){
+					gc.lineTo(temp.get(j-1), temp.get(j));
+					gc.stroke();					
+				 }
 				 gc.closePath();
 				 gc.setStroke(Color.BLACK);
-				 gc.setLineWidth(1);
-				 
+				 gc.setLineWidth(1); 
 			 }
-                 
-			 
-		 
 		 }
 	 }
 	 
 	 
 	 public void eliminar(){
 		 if(indice!=-1){
-		 System.out.println("eliminaras el indice: "+indice+"?");
+		 //System.out.println("eliminaras el indice: "+indice+"?");
 		 //pasar valores uno por uno en el grid
 		 int tam=area_results.getChildren().size();
 		 
@@ -274,17 +235,18 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 
 		 indice=-1;
 		 actualiza();
+
 		 }
 	 }
 	 public void guardar(){
-		 int id_imagen=new Consultas().id_imagen(url2);
-		 if(saveToFile()){
+	 int id_imagen=new Consultas().id_imagen(url2);
+	 if(saveToFile()){
 		 if(new Consultas().agregar_poligonos(id_imagen, areas)){
-			 System.out.println("Se guardÃ³ correctamente (:");
-		 }else{
-			 System.out.println("Oh oh... algo saliÃ³ mal");
-			 
-		 }
+				 //System.out.println("Se guarda correctamente (:");
+			 }else{
+				 //System.out.println("Oh oh... algo saliÃ³ mal");
+				 
+			 }
 		 }
 	 }
 	 
@@ -297,12 +259,32 @@ public class AreaControlador implements Initializable, ControladorVentanas
 			 	BufferedImage bi =SwingFXUtils.fromFXImage((Image)wim, null); 
 	            ImageIO.write(bi, "png", file);
 	            return true;
-	        } catch (Exception s) {
+	    } catch (Exception s) {
 	        	System.out.println("Ups!... errorcito jejeje ");
 	        	return false;
-	        }
-		 
-         
+	    }
     }
-		  
+
+	 public void cierraArea(){
+		 coords.remove(coords.size()-1); coords.remove(coords.size()-1);
+		 coords.add(coords.size(),coords.get(0)); coords.add(coords.size(),coords.get(1));
+		 gc.lineTo(coords.get(0),coords.get(1));
+		 gc.stroke();
+		 poligonos.add(coords);
+		 //System.out.println(poligonos);
+		 
+		 calculaArea();
+		 coords=new ArrayList<Float>();  //libero el antiguo coords, y ahora poligono lo tiene
+		 gc.beginPath();
+	 }
+	
+	 //Si se pulsa la telcla ESCAPE-----------------------------------------------------------
+	@FXML
+	public void cancelar(KeyEvent e){
+		
+		if(e.getCode()==KeyCode.ESCAPE){
+			coords.clear();
+			actualiza();
+		}
+	} 	  
 }

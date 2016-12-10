@@ -21,11 +21,12 @@ public class Consultas extends Conexion{
 	public ArrayList<String> lista1=new ArrayList<String>();
 
 	public List<Integer> lista2=new ArrayList<Integer>();
+	public List<Integer> areas=new ArrayList<Integer>();
+	
+	//Funciones para buscar datos---------------------------------------------------------------------
 	
      //Devuelve un array de strings de los nombres de las carpetas
 	 public ArrayList<String> carpeta(){
-		
-	 
 	        PreparedStatement pst;
 	        pst = null;
 	        ResultSet rs= null;
@@ -36,14 +37,10 @@ public class Consultas extends Conexion{
 	            String consultaUsuario ="select * from proyecto";
 	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
-	            //OBTEN LOS DATOS
-	           
-				//pst.setString(1, NombreProyecto);
-			
+	            
 	            //EJECUTA LA CONSULTA
 	            rs = pst.executeQuery();
 	            
-	           
 		        boolean r=rs.next();
 				while (r) {
 					
@@ -89,13 +86,8 @@ public class Consultas extends Conexion{
 	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
 	           
-	            //OBTEN LOS DATOS
-	           
-				//pst.setString(1, NombreProyecto);
-			
 	            //EJECUTA LA CONSULTA
-	            rs = pst.executeQuery();
-	            
+	            rs = pst.executeQuery(); 
 	           
 		        boolean r=rs.next();
 				while (r) {
@@ -139,8 +131,7 @@ public class Consultas extends Conexion{
 	            String consultaUsuario ="select URL from proyecto,imagen where imagen.minuto ="+minuto+" and proyecto.NombreProyecto='"+NombreProyecto+"' and proyecto.id_proyecto=imagen.id_proyecto";
 	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
-	            //OBTEN LOS DATOS
-	           // pst.setInt(1, id_imagen);
+	          
 	            //EJECUTA LA CONSULTA
 	            rs = pst.executeQuery();
 	            
@@ -170,6 +161,7 @@ public class Consultas extends Conexion{
 	         return null;
 	    }
 	 
+	 //Devuelve el id de la imagen de una url
 	 public int id_imagen(String url){
 		 	PreparedStatement pst;
 	        pst = null;
@@ -181,8 +173,7 @@ public class Consultas extends Conexion{
 	            String consultaUsuario ="select id_imagen from imagen where URL ='"+url+"'";
 	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
-	            //OBTEN LOS DATOS
-	           // pst.setInt(1, id_imagen);
+	         
 	            //EJECUTA LA CONSULTA
 	            rs = pst.executeQuery();
 	            
@@ -211,7 +202,7 @@ public class Consultas extends Conexion{
 	        
 	         return 0;
 	 }
-	 
+	 //Obtiene el id de un proyecto con respecto a un nombre
 	 public int id_proyecto(String NombreProyecto){
 		 	PreparedStatement pst;
 	        pst = null;
@@ -223,8 +214,7 @@ public class Consultas extends Conexion{
 	            String consultaUsuario ="select id_proyecto from proyecto where NombreProyecto ='"+NombreProyecto+"'";
 	            //PREPARA LA CONEXI�N
 	            pst = getConexion().prepareStatement(consultaUsuario);
-	            //OBTEN LOS DATOS
-	           // pst.setInt(1, id_imagen);
+	           
 	            //EJECUTA LA CONSULTA
 	            rs = pst.executeQuery();
 	            
@@ -254,6 +244,53 @@ public class Consultas extends Conexion{
 	         return 0;
 	 }
 
+	 public List<Integer> momentos(Integer id_imagen){
+			
+	        PreparedStatement pst;
+	        pst = null;
+	        ResultSet rs= null;
+	      
+	        //CONSULTA EN LA BD
+	        try{
+	            //COMANDO PARA HACER LA CONSULTA EN LA BD
+	            String consultaUsuario ="SELECT * from poligono WHERE id_imagen='"+id_imagen+"'";
+	            //PREPARA LA CONEXIï¿½N
+	            pst = getConexion().prepareStatement(consultaUsuario);
+
+	            //EJECUTA LA CONSULTA
+	            rs = pst.executeQuery();
+	            
+	           
+		        boolean r=rs.next();
+				while (r) {
+					areas.add(rs.getInt("area"));
+					//System.out.println("Hola");
+					r=rs.next();
+				}
+	            
+	        return areas;
+	        //EN CASO DE HABER ERROR MANDAR MENSAJE
+	        }catch(Exception e){
+	        	System.out.println("HOLA");
+	            System.err.println("ERROR " +e);
+	        }
+	        finally{
+	            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+	            try{
+	                if(getConexion()!=null) getConexion().close();
+	                if(pst != null) pst.close();
+	                if(rs!=null) rs.close();
+	            }
+	            //SI NO MANDAR ERROR
+	            catch (Exception e)
+	            {
+	                System.err.println("ERROR "+ e);
+	            }
+	        }
+	        
+			return null;
+	 }
+	 //Funciones para insertar datos------------------------------------------------------------------
 	 public boolean agregar_proyecto(String NombreProyecto){
 		 PreparedStatement pst;
 	        pst = null;
@@ -269,8 +306,6 @@ public class Consultas extends Conexion{
 	            
 	            //EJECUTA LA CONSULTA
 	            pst.execute();
-	            
-	            
 	            return true;
 	            
 	        //EN CASO DE HABER ERROR MANDAR MENSAJE
@@ -311,8 +346,6 @@ public class Consultas extends Conexion{
 	            
 	            //EJECUTA LA CONSULTA
 	            pst.execute();
-	            
-	            
 	            return true;
 	            
 	        //EN CASO DE HABER ERROR MANDAR MENSAJE
@@ -378,7 +411,5 @@ public class Consultas extends Conexion{
 	        }
 	       
 		 return false;
-	 }
-	 
-  
+	 }  
 }
