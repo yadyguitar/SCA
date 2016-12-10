@@ -1,12 +1,18 @@
 package application;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -30,62 +36,67 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 	//Variables de la clase-----------------------------------------------------------------
 	static public Integer t2; //minuto de la imagen
 	static public String t3; //nombre del proyecto
-	InicioControlador ini= new InicioControlador();
+	InicioControlador ini= new InicioControlador(); //aquÃ­ accedarÃ¡s al nombre del proyecto que se encuentra en otra vista static
 	
 	ScreensController myController; 
 	private int contador = 0;
-	private int MAX =4;		//El máximo de columnas del grid
+	private int MAX =4;		//El mï¿½ximo de columnas del grid
 	private int i = 0;		//Sirve para recorrer las columnas
 	private int j = 0;		//Sirve para recorrer las filas
-	private int k=0;		//Sirve como contador para imprimir todas las imágenes del proyecto
+	private int k=0;		//Sirve como contador para imprimir todas las imï¿½genes del proyecto
 	VBox pictureRegion;
 	
 	//Variables del fxml------------------------------------------------------------------------------
 	@FXML Label textoProyecto = null;
 	@FXML GridPane grid;
 	
-	//Función inicializadora-------------------------------------------------------------------------
+	//Funciï¿½n inicializadora-------------------------------------------------------------------------
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		textoProyecto.setText(ini.t);   //Guardo el texto del proyecto seleccionado
-		agregaImagen();
+		try {
+			agregaImagen();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	//Función para mandar vista---------------------------------------------------------------------
+	//Funciï¿½n para mandar vista---------------------------------------------------------------------
 	public void setScreenParent(ScreensController screenParent){ 
         myController = screenParent; 
      } 
 	
 	//Funciones para el fxml-----------------------------------------------------------------------
 	@FXML
-	 private void MostrarInicio() { //función que sirve para mandar al inicio del proyecto
-        //llamado desde el botón si ya existe la vista
-		myController.unloadScreen(Framework.screen1ID);
+	 private void MostrarInicio() { //funciï¿½n que sirve para mandar al inicio del proyecto
+        //llamado desde el botï¿½n si ya existe la vista
+		//myController.unloadScreen(Framework.screen1ID);
 		myController.loadScreen(Framework.screen1ID, Framework.screen1File);
 		myController.setScreen(Framework.screen1ID);
 	
 	 }
 
 	@FXML
-	private void MostrarProyecto(){	//función que sirve para mandar a la vista de los proyectos
-		myController.unloadScreen(Framework.screen2ID);
+	private void MostrarProyecto(){	//funciï¿½n que sirve para mandar a la vista de los proyectos
+		//myController.unloadScreen(Framework.screen2ID);
 		myController.loadScreen(Framework.screen2ID, Framework.screen2File);
 		myController.setScreen(Framework.screen2ID);
 	}
 	 
-	//Función que muestra las imágenes que tiene el proyecto
-	@FXML public void agregaImagen(){
-        
+	//Funciï¿½n que muestra las imï¿½genes que tiene el proyecto
+	@FXML public void agregaImagen() throws FileNotFoundException{
+		
 		RowConstraints file = null;
         List<Integer> lista=new ArrayList<Integer>();
         //System.out.println("Texto en Proyecto:   "+ini.t);
        
-        Consultas c = new Consultas();	//Se crea una conexión con la base de datos
+        Consultas c = new Consultas();	//Se crea una conexiï¿½n con la base de datos
         lista.addAll(c.imagen(ini.t));	//Se obtienen los minutos existentes
        
-        int tam = lista.size();			//Obtengo la cantidad de imágenes que tiene el proyecto
-        //Mientras no haya recorrido todas las imágenes, y al menos tenga una
+        int tam = lista.size();			//Obtengo la cantidad de imï¿½genes que tiene el proyecto
+        //Mientras no haya recorrido todas las imï¿½genes, y al menos tenga una
         if(tam!=0){
 			while(k<tam){  
 				pictureRegion= new VBox(10); 		
@@ -94,7 +105,6 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		        Label l = new Label();
 		        l.setText("Minuto "+String.valueOf(lista.get(k)));
 		        contador = lista.get(k);
-		        
 		        //Ruta de la imagen
 		        Consultas co = new Consultas();
 		        String tx = new String(co.ruta_imagen(lista.get(k), ini.t));
@@ -103,7 +113,9 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		        imv.setFitWidth(180);
 		        imv.setFitHeight(178);
 		        imv.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,61,0.8), 5, 1, 0.5, 0.5); ");
-		        final Image image2 = new Image(Framework.class.getResourceAsStream(tx));
+		        InputStream is = new FileInputStream(tx);
+		        Image image2 = new Image(is);
+		        System.out.println(image2);
 		        imv.setImage(image2);
 		        
 		        //Se agregan los elementos al grid
@@ -130,7 +142,7 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 			tam=0;
         }
         else{
-        	//Si no tiene imágenes, se crea un texto indicando que no tiene
+        	//Si no tiene imï¿½genes, se crea un texto indicando que no tiene
         	Label sinImagen = new Label("En este proyecto no existe ninguna imagen");
         	sinImagen.setStyle("-fx-font-size: 25px; -fx-margin:200;");
 	    	sinImagen.setPrefWidth(600);
@@ -140,21 +152,22 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
         	 
         	grid.add(sinImagen,0,0);
         }
+        
 			
 	}
-	//Función que envia el minuto de la imagen seleccionada a la vista área
+	//Funciï¿½n que envia el minuto de la imagen seleccionada a la vista ï¿½rea
 	public void enviarImagen(javafx.scene.input.MouseEvent e,Integer texto2, String texto3){
 		
 		//System.out.println("Texto en Area:  "+texto2);
 		t2=texto2;
 		t3=texto3;
-		myController.unloadScreen(Framework.screen3ID);
+		//myController.unloadScreen(Framework.screen3ID);
 		myController.loadScreen(Framework.screen3ID, Framework.screen3File);
 		myController.setScreen(Framework.screen3ID);
 	}
 	
 	@FXML
-	private void AbrirVentana() throws IOException{	//función que crea las imágenes del proyecto
+	private void AbrirVentana() throws IOException{	//funciï¿½n que crea las imï¿½genes del proyecto
 		
 		FileChooser fc = new FileChooser();
 		//fc.setInitialDirectory(new File("C:\\cristales"));
@@ -167,26 +180,30 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 				//System.out.println(selectedFiles.get(i).getParentFile()); //ruta sin nombre
 				//System.out.println(selectedFiles.get(i).getName());  //Nombre
 				contador = contador + 10;
-				String ruta = new String("Proyectos/"+ini.t+"/"+selectedFiles.get(i).getName());	
+				
+				
+				String userDirectoryString = System.getProperty("user.home");
+				String name=LocalDateTime.now().toString();
+				String ruta = new String(userDirectoryString+"/SCA/"+ini.t+"/"+name+".png");	
 				Path copy_from_1 = Paths.get(""+selectedFiles.get(i).getParentFile(), selectedFiles.get(i).getName());
 				//System.out.println(copy_from_1.getFileName().toString());
-		        Path copy_to_1 = Paths.get("src/application/Proyectos/"+ ini.t, "min"+contador+".png");
+		        Path copy_to_1 = Paths.get(userDirectoryString+"/SCA/"+ ini.t, name+".png");
 		        try {
 		          Files.copy(copy_from_1, copy_to_1, REPLACE_EXISTING, COPY_ATTRIBUTES,
 		              NOFOLLOW_LINKS);
 		        } catch (IOException e) {
-		          System.err.println(e);
+		          System.err.println(e.getMessage());
 		        }
 		        Consultas c= new Consultas();
 		        //System.out.println(ini.id);
 		        
-		        //Agrega las imágenes
+		        //Agrega las imï¿½genes
 		        c.agregar_imagen(ini.id, contador, ruta);
 		       
 			}
 		}
 		else{
-			System.out.println("El archivo es inválido");
+			System.out.println("El archivo es invï¿½lido");
 		}
 		
 	}

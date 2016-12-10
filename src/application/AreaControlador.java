@@ -1,6 +1,8 @@
 package application;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	List<Label> areas=new ArrayList<Label>();
 	
 	@Override
-	//Función que inicializa la vista-----------------------------------------------------------
+	//Funciï¿½n que inicializa la vista-----------------------------------------------------------
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		
@@ -56,7 +58,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		url2=co.ruta_imagen(pro.t2, pro.t3); //obtengo la ruta pasando como parametros el min y el nombre de proyecto
 		
 		//System.out.println(url2);
-		subirImagen("application/"+url2);
+		subirImagen(url2);
 		
 		NombreProyecto.setText(pro.t3);
 		NombreImagen.setText("Minuto "+pro.t2);
@@ -67,29 +69,32 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		area_results.setOnMouseClicked(e -> seleccion(e));
 		canvas_area.setContent(canvas);
 	}
-	//Función que cambia de vista---------------------------------------------------------------
+	//Funciï¿½n que cambia de vista---------------------------------------------------------------
 	public void setScreenParent(ScreensController screenParent){ 
         myController = screenParent; 
      }
-	//Función que cambia a la vista inicio-----------------------------------------------------
+	//Funciï¿½n que cambia a la vista inicio-----------------------------------------------------
 	@FXML
 	 private void MostrarInicio() {
 		 myController.setScreen(Framework.screen1ID);
 	 }
-	//Función que cambia a la vista proyecto---------------------------------------------------
+	//Funciï¿½n que cambia a la vista proyecto---------------------------------------------------
 	@FXML
 	private void MostrarProyecto(){
 		myController.setScreen(Framework.screen2ID);
 	}
-	//Función que cambia a la vista imagen----------------------------------------------------
+	//Funciï¿½n que cambia a la vista imagen----------------------------------------------------
 	@FXML
 	private void MostrarImagen(){
 		myController.setScreen(Framework.screen3ID);
 	}
-	//Función que crea la imagen a seleccionar
+	//Funciï¿½n que crea la imagen a seleccionar
 	 public boolean subirImagen(String url){
 		 try{
-		 img=new Image(url);
+			 
+		InputStream is = new FileInputStream(url); 
+			 
+		 img=new Image(is);
 		 gc.drawImage(img, 0, 0);
 		 }catch (Exception e) {
 			System.out.println(e.getMessage());

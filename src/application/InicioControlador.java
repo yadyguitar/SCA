@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,36 +38,38 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	//Variables del fxml---------------------------------------------------------------------------
 	@FXML GridPane grid;
 	@FXML ScrollPane scroll;
-	//Función inicial------------------------------------------------------------------------------
+	//Funciï¿½n inicial------------------------------------------------------------------------------
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		agregaProyecto();
 	}
-	//Función que sirve para mandar una vista-----------------------------------------------------
+	//Funciï¿½n que sirve para mandar una vista-----------------------------------------------------
 	public void setScreenParent(ScreensController screenParent){ 
         myController = screenParent; 
      } 
 	//Funciones para el fxml----------------------------------------------------------------------
 	@FXML
-	 private void MostrarInicio() {	//Esta función sirve para mandar al inicio del proyecto
-	        //llamado desde el botón que existe en la vista.
-		myController.unloadScreen(Framework.screen1ID);
+	 private void MostrarInicio() {	//Esta funciï¿½n sirve para mandar al inicio del proyecto
+	        //llamado desde el botï¿½n que existe en la vista.
+		//myController.unloadScreen(Framework.screen1ID);
 		myController.loadScreen(Framework.screen1ID, Framework.screen1File);
 		myController.setScreen(Framework.screen1ID);
 	 }
-	public void MostrarProyecto(){	//función que sirve para mandar a la vista de los proyectos
-		myController.unloadScreen(Framework.screen2ID);
+	public void MostrarProyecto(){	//funciï¿½n que sirve para mandar a la vista de los proyectos
+		System.out.println("Mostrando vista proyecto|Funcion MostrarProyecto()->InicioControlador");
+		//myController.unloadScreen(Framework.screen2ID);
 		myController.loadScreen(Framework.screen2ID, Framework.screen2File);
 		myController.setScreen(Framework.screen2ID);
 	}
 
-	//Esta función permite crear las carpetas de los proyectos y mostrarlas
+	//Esta funciï¿½n permite crear las carpetas automaticamente de los proyectos que se encuentran en la base de datos y mostrarlas
+	//aqui no estÃ¡ el onclick de aceptar de la ventana emergente, esta en controller proyectonuevoVista
 	public void agregaProyecto(){
-		Consultas c=new Consultas();	//Se crea una conexión con la base de datos
+		Consultas c=new Consultas();	//Se crea una conexiï¿½n con la base de datos
         ArrayList<String> lista=new ArrayList<String>();
         lista.addAll(c.carpeta());		//Almacena el nombre de los proyectos en una lista
-        int tam = lista.size();			//Obtengo el tamaño de la lista
+        int tam = lista.size();			//Obtengo el tamaï¿½o de la lista
         if(tam!=0){						//Si existe una lista
 			while(k<tam){  				//Recorro la lista
 
@@ -91,9 +94,8 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		        pictureRegion.getChildren().add(texto);
 
 		        Text temp=(Text)pictureRegion.getChildren().get(1);	//Leo el nombre del proyecto  
-		        pictureRegion.setOnMouseClicked(e-> enviarProyecto(e,temp.getText())); //Lo guardo
-		        File directorio = new File("src\\application\\Proyectos\\"+temp.getText()); //Creo una carpeta
-		        directorio.mkdir(); 
+		        pictureRegion.setOnMouseClicked(e-> enviarProyecto(e,temp.getText())); //Lo guardo(?), se supone que aquÃ­ va a mostrar la siguiente vista de las imagenes del proyecto seleccionado
+		        	        										//temp.getText(), obtengo el nombre del proyecto donde di click
 		        
 		        pictureRegion.setAlignment(Pos.CENTER);
 		        pictureRegion.setMinSize(260, 230);
@@ -113,7 +115,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         }
         else{
         	//Si no tengo proyectos, indico que no hay
-        	Label sinProyecto = new Label("No existe ningún proyeto");
+        	Label sinProyecto = new Label("No existe ningÃºn proyeto");
         	sinProyecto.setStyle("-fx-font-size: 25px; -fx-margin:200;");
         	sinProyecto.setPrefWidth(600);
         	sinProyecto.setAlignment(Pos.CENTER);
@@ -122,8 +124,8 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         	grid.add(sinProyecto,0,0);
         }
         
-        //-------------------------CÁLCULO DE LOS MOMENTOS DE DISTRIBUCIÓN-----------------------------
-        Integer id_imagen = 102;
+        //-------------------------Cï¿½LCULO DE LOS MOMENTOS DE DISTRIBUCIï¿½N-----------------------------
+       /* Integer id_imagen = 102;
         ArrayList<Integer> areas=new ArrayList<Integer>();
         areas.addAll(new Consultas().momentos(id_imagen));
         if(areas.size()!=0){
@@ -209,10 +211,12 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	       System.out.println(m0);
 	       //IMPORTAN----------------------
         }
-		
+		*/
 	}
+	
+	//En el menubar, la opcion "nuevo", lanza esta funciÃ³n, desde el fxml de ProyectoNuevo
 	@FXML
-	private void AbrirVentana() throws IOException{ //Esta función permite agregar un proyecto nuevo
+	private void AbrirVentana() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
 		Stage principal = new Stage();
 		principal.initStyle(StageStyle.UNDECORATED);
 		Parent mainLayout = FXMLLoader.load(getClass().getResource("ProyectoNuevo.fxml"));
@@ -224,15 +228,14 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         principal.setScene(scene);
         principal.show();	
 	}
-	//Esta función sirve para mandar el nombre del proyecto y su id
+	
+	//Esta funciï¿½n sirve para mandar el nombre del proyecto y su id
 	public void enviarProyecto(javafx.scene.input.MouseEvent e,String text){
 
 		Consultas c = new Consultas();
 		t=text;
 		id=c.id_proyecto(text);
 		
-		myController.unloadScreen(Framework.screen2ID);
-		myController.loadScreen(Framework.screen2ID, Framework.screen2File);
-		myController.setScreen(Framework.screen2ID);
+		MostrarProyecto(); //muestra la vista de proyecto
 	}	
 }

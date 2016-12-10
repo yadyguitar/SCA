@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ProyectoNuevoVista implements Initializable{
-	@FXML TextField NombreProyectoNuevo = null;
+	@FXML TextField NombreProyectoNuevo;
 	@FXML AnchorPane ventanaProyecto;
 	@FXML Button cancelar;
 	@FXML Button aceptar;
@@ -32,14 +32,18 @@ public class ProyectoNuevoVista implements Initializable{
 		
 	}
 
+	//Esta es la funcion que al darle click en aceptar en la ventana emergente de nuevo proyecto, creará el nuevo proyecto
 	@FXML
 	private void AgregarProyectoNuevo(){
 		
 		String Texto = (NombreProyectoNuevo.getText());
 		if(Texto.length()!=0){
 			Consultas co = new Consultas();
-			File directorio = new File("src\\application\\Proyectos\\"+Texto); 
-			directorio.mkdir(); 
+			
+			String userDirectoryString = System.getProperty("user.home");
+	        File directorio = new File(userDirectoryString+"/SCA/"+Texto);
+	        System.out.println(directorio.mkdir()); 
+
 			co.agregar_proyecto(Texto);
 			
 		}
