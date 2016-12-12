@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane onKeyPressed="#tecla" fx:id="ventanaProyecto" prefHeight="180.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.cambiarNombreProyecto">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="67.0" text="Ingrese el nuevo nombre:" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NombreProyectoNuevo" layoutX="200.0" layoutY="67.0" prefHeight="25.0" prefWidth="174.0" />
+      <Button fx:id="aceptar" layoutX="200.0" layoutY="129.0" mnemonicParsing="false"  onMouseClicked="#actualizarNombreP" prefHeight="25.0" prefWidth="79.0" text="Aceptar" />
+      <Button fx:id="cancelar" layoutX="295.0" layoutY="129.0" mnemonicParsing="false" onMouseClicked="#CerrarVentana" prefHeight="25.0" prefWidth="79.0" text="Cancelar" />
+   </children>
+</AnchorPane>

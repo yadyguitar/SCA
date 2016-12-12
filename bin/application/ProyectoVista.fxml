@@ -19,9 +19,9 @@
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
             <MenuItem onAction="#AbrirVentana" mnemonicParsing="false" text="Agregar Imágenes" />
-            <MenuItem mnemonicParsing="false" text="Guardar Cambios" />
+            <MenuItem mnemonicParsing="false" text="Exportar imagen" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cerrar" />
+            <MenuItem onAction="#CerrarPrograma" mnemonicParsing="false" text="Cerrar" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edición">
@@ -36,17 +36,17 @@
         </Menu>
          <Menu mnemonicParsing="false"  text="Gráficas">
           <items>
-            <MenuItem mnemonicParsing="false" text="Momento 0" />
-            <MenuItem mnemonicParsing="false" text="Momento 1" />
-            <MenuItem mnemonicParsing="false" text="Momento 2" />
-            <MenuItem mnemonicParsing="false" text="Momento 3" />
+            <MenuItem onAction="#GraficaM0" mnemonicParsing="false" text="Momento 0" />
+            <MenuItem onAction="#GraficaM1" mnemonicParsing="false" text="Momento 1" />
+            <MenuItem onAction="#GraficaM2" mnemonicParsing="false" text="Momento 2" />
+            <MenuItem onAction="#GraficaM3" mnemonicParsing="false" text="Momento 3" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Todos los momentos"/>
+            <MenuItem  mnemonicParsing="false" text="Todos los momentos"/>
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Ayuda">
           <items>
-            <MenuItem mnemonicParsing="false" text="Acerca de SCA" />
+            <MenuItem onAction="#Acercade" mnemonicParsing="false" text="Acerca de SCA" />
           </items>
         </Menu>
       </menus>

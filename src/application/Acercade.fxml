@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="ventanaAcercade" onKeyPressed="#tecla" prefHeight="316.0" prefWidth="401.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AcercadeControlador">
+   <children>
+     
+      <Button fx:id="cerrar" layoutX="302.0" layoutY="284.0" mnemonicParsing="false" onMouseClicked="#CerrarVentana" prefHeight="25.0" prefWidth="79.0" text="Cerrar" />
+      <Line endX="100.0" layoutX="300.0" layoutY="101.0" startX="-300.0" />
+      <Rectangle arcHeight="5.0" fill="#bbc6e4" height="108.0" layoutY="-7.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="401.0" />
+      <ImageView fitHeight="78.0" fitWidth="96.0" layoutX="21.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@imagenes/logouv.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="67.0" fitWidth="63.0" layoutX="310.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@imagenes/icono.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="21.0" layoutY="118.0" prefHeight="20.0" prefWidth="366.0" text="Software Cristal Analysis tiene como objetivo el analisis y " textAlignment="JUSTIFY">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="138.0" prefHeight="20.0" prefWidth="366.0" text="la determinación del tamaño de los cristales facilitando el" textAlignment="JUSTIFY">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="158.0" prefHeight="20.0" prefWidth="366.0" text="reconocimiento de los estándares de calidad en el menor" textAlignment="JUSTIFY">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="21.0" layoutY="179.0" prefHeight="20.0" prefWidth="366.0" text="tiempo posible, usando técnicas convencionales de" textAlignment="JUSTIFY">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="199.0" prefHeight="20.0" prefWidth="366.0" text="tratamiento de imagenes." textAlignment="JUSTIFY">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Line endX="100.0" layoutX="300.0" layoutY="278.0" startX="-300.0" stroke="#141414" strokeWidth="0.5" />
+      <Label layoutX="267.0" layoutY="237.0" text="Yadira Fleitas Toranzo" textFill="#3b3eed" />
+      <Label layoutX="268.0" layoutY="254.0" text="Suleyma Mota García" textFill="#3b3eed" />
+   </children>
+</AnchorPane>

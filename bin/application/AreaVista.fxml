@@ -22,12 +22,12 @@
      
             <HBox prefHeight="25">
          <children>
-            <Label fx:id="inicio" alignment="CENTER" onMouseClicked="#MostrarInicio"  text="  Inicio">
+            <Label fx:id="inicio" alignment="CENTER" onMouseClicked="#MostrarInicio" text="  Inicio">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="NombreProyecto" alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto"  text="Proyecto">
+            <Label fx:id="NombreProyecto" alignment="CENTER" layoutX="70.0" onMouseClicked="#MostrarProyecto" text="Proyecto">
                <font>
                   <Font size="14.0" />
                </font>
@@ -37,18 +37,20 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Label fx:id="x" style="-fx-translate-x: 815;" text="x:" />
+            <Label fx:id="y" style="-fx-translate-x: 875;" text="y:" />
          </children>
       </HBox>
    </bottom>
    <center>
-      <GridPane BorderPane.alignment="CENTER" hgap="10" >
+      <GridPane hgap="10" BorderPane.alignment="CENTER">
          <children>
-         		<ScrollPane GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="canvas_area" maxHeight="540.0" maxWidth="1000" onKeyPressed="#cancelar"/>
-         		<ScrollPane GridPane.columnIndex="2" GridPane.rowIndex="1" maxHeight="540.0" minWidth="150">
+         		<ScrollPane fx:id="canvas_area" maxHeight="540.0" maxWidth="1000" onKeyPressed="#cancelar" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+         		<ScrollPane maxHeight="510.0" minWidth="150" style="-fx-translate-y: 15;" GridPane.columnIndex="2" GridPane.rowIndex="1">
             <content>
             			<AnchorPane>
                <children>
-                              <GridPane alignment="CENTER"  fx:id="area_results" maxHeight="551.0" style="-fx-font-size:14" vgap="5" />
+                              <GridPane fx:id="area_results" alignment="CENTER" maxHeight="551.0" style="-fx-font-size:14" vgap="5" />
                </children>
                         </AnchorPane>
             </content>
@@ -58,30 +60,46 @@
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
       </GridPane>
    </center>
    <top>
     
-          <MenuBar  BorderPane.alignment="CENTER">
+          <MenuBar BorderPane.alignment="CENTER">
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" text="Guardar Cambios" onAction="#guardar"/>
+            <MenuItem mnemonicParsing="false" onAction="#guardar" text="Guardar Cambios" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cerrar" />
+            <MenuItem onAction="#CerrarPrograma" mnemonicParsing="false" text="Cerrar" />
           </items>
         </Menu> 
         <Menu mnemonicParsing="false" text="Edición">
           <items>
-            <MenuItem mnemonicParsing="false" text="Eliminar" onAction="#eliminar"/>
+            <MenuItem mnemonicParsing="false" onAction="#eliminar" text="Eliminar" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Ayuda">
           <items>
-            <MenuItem mnemonicParsing="false" text="Acerca de SCA" />
+            <MenuItem onAction="#Acercade" mnemonicParsing="false" text="Acerca de SCA" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
    </top>
+   <right>
+      <Label alignment="TOP_CENTER" style="-fx-translate-x: -100; -fx-translate-y: -260;" text="Áreas" textFill="#5469b5" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </right>
 </BorderPane>

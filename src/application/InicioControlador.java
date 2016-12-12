@@ -1,13 +1,21 @@
 package application;
 
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.ResourceBundle.Control;
+
+import javax.swing.JFileChooser;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +31,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 
 
@@ -32,13 +43,17 @@ import javafx.stage.StageStyle;
 public class InicioControlador  implements Initializable,ControladorVentanas{
 
 	//Variables de la clase-------------------------------------------------------------------------
+	
 	ScreensController myController; 
+	static public String textonuevo;
+	public static int  EntraIncial=0;    
 	static public String t; 	//Sirve para almacenar el nombre del proyecto cuando es seleccionado
 	static public Integer id; 	//Almacena el id del proyecto seleccionado
 	private int MAX =5;			//Es las columnas que contiene el grid
 	private int i = 0;			//para moverse por las columnas del grid
 	private int j = 0;			//para moverse por las filas del grid
 	private int k=0;			//Un contador para recorrer las carpetas totales
+	int importar = 0;
 	VBox pictureRegion;			
 	//Variables del fxml---------------------------------------------------------------------------
 	@FXML GridPane grid;
@@ -48,9 +63,23 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		
 		agregaProyecto();
 		
 		inicio.setCursor(Cursor.CLOSED_HAND);
+	}
+	@FXML
+	private void cambiarNombreP(String j) throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		Stage principal = new Stage();
+		principal.initStyle(StageStyle.UNDECORATED);
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("cambiarNombreProyecto.fxml"));
+        Scene scene = new Scene(mainLayout);
+        //Agrega icono 
+        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
+		principal.getIcons().add(icon);
+		textonuevo = j;
+        principal.setScene(scene);
+        principal.show();	
 	}
 	//Funci�n que sirve para mandar una vista-----------------------------------------------------
 	public void setScreenParent(ScreensController screenParent){ 
@@ -64,13 +93,186 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		myController.loadScreen(Framework.screen1ID, Framework.screen1File);
 		myController.setScreen(Framework.screen1ID);
 	 }
+	@FXML
+	public void CerrarPrograma(){
+		Framework.principal.close();
+	}
+	
 	public void MostrarProyecto(){	//funci�n que sirve para mandar a la vista de los proyectos
 		System.out.println("Mostrando vista proyecto|Funcion MostrarProyecto()->InicioControlador");
 		//myController.unloadScreen(Framework.screen2ID);
 		myController.loadScreen(Framework.screen2ID, Framework.screen2File);
 		myController.setScreen(Framework.screen2ID);
 	}
+	@FXML
+	private void AbrirVentana() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		Stage principal = new Stage();
+		principal.initStyle(StageStyle.UNDECORATED);
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("ProyectoNuevo.fxml"));
+        Scene scene = new Scene(mainLayout);
+        //Agrega icono 
+        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
+		principal.getIcons().add(icon);
+		
+        principal.setScene(scene);
+        principal.show();	
+	}
+	
+	@FXML
+	private void Acercade() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		Stage principal = new Stage();
+		principal.initStyle(StageStyle.UNDECORATED);
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("Acercade.fxml"));
+        Scene scene = new Scene(mainLayout);
+        //Agrega icono 
+        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
+		principal.getIcons().add(icon);
+		
+        principal.setScene(scene);
+        principal.show();	
+	}
+	/*Metodo que copia completamente una carpeta usando recursividad
+	 *PARAMETRO1:FOrigen:Fichero o carpeta que se desea copiar
+	 *PARAMETRO2:FDestino:Carpeta destino
+	 */
+	public static void Copiar(File FOrigen,File FDestino){
+        //si el origen no es una carpeta
+        if(!FOrigen.isDirectory()){
+            //Llamo la funcion que lo copia
+            CopiarFichero(FOrigen,FDestino);
+        }else{
+           //incremento el contador de entradas a esta funcion 
+           EntraIncial++; 
+           //si es el directorio padre(1 carpeta a copiar)
+           if(EntraIncial==1){
+                //Cambio la ruta destino por el nombre que tenia mas el nombre de
+                //la carpeta padre
+                FDestino=new File(FDestino.getAbsolutePath()+"/"+FOrigen.getName()); 
+                //si la carpeta no existe la creo
+                if(!FDestino.exists()){
+                    FDestino.mkdir();
+                }
+           } 
+           //obtengo el nombre de todos los archivos y carpetas que 
+           //petenecen a este fichero(FOrigen)
+           String []Rutas=FOrigen.list();
+           //recorro uno a uno el contenido de la carpeta
+           for(int i=0;i<Rutas.length;i++){
+              //establesco el nombre del nuevo archivo origen 
+              File FnueOri=new File(FOrigen.getAbsolutePath()+"/"+Rutas[i]);
+              //establesco el nombre del nuevo archivo destino 
+              File FnueDest= new File(FDestino.getAbsolutePath()+"/"+Rutas[i]);
+              //si no existe el archivo destino lo creo
+              if(FnueOri.isDirectory() && !FnueDest.exists()){
+                  FnueDest.mkdir();                        
+              }
+              //uso recursividad y llamo a esta misma funcion has llegar
+              //al ultimo elemento    
+              Copiar(FnueOri,FnueDest); 
+           }
+        }
+	        
+	}    
+	public static void CopiarFichero(File FOrigen,File FDestino){
+		try {
+			//Si el archivo a copiar existe
+			if(FOrigen.exists()){
+			    String copiar="S";
+			    //si el fichero destino ya existe
+			    if(FDestino.exists()){
+			      // System.out.println("El fichero ya existe, Desea Sobre Escribir:S/N ");
+			       //copiar = ( new BufferedReader(new InputStreamReader(System.in))).readLine();
+			    }
+			    //si puedo copiar
+			    if(copiar.toUpperCase().equals("S")){
+			        //Flujo de lectura al fichero origen(que se va a copiar)            
+			        FileInputStream LeeOrigen= new FileInputStream(FOrigen);
+			        //Flujo de lectura al fichero destino(donde se va a copiar)
+			        OutputStream Salida = new FileOutputStream(FDestino);
+			        //separo un buffer de 1MB de lectura
+			        byte[] buffer = new byte[1024];
+			        int tama�o;
+			        //leo el fichero a copiar cada 1MB
+			        while ((tama�o = LeeOrigen.read(buffer)) > 0) {
+			        	//Escribe el MB en el fichero destino
+			        	Salida.write(buffer, 0, tama�o);
+			        }
+			        //System.out.println(FOrigen.getName()+" Copiado con Exito!!");
+			        //cierra los flujos de lectura y escritura
+			        Salida.close();
+			        LeeOrigen.close();
+			    }
+	                
+	        }else{//l fichero a copiar no existe                
+	                //System.out.println("El fichero a copiar no existe..."+FOrigen.getAbsolutePath());
+	        }
+            
+        } catch (Exception ex) {
+            //System.out.println(ex.getMessage());
+        
+        }
+	    
+	}
+	
+	private void cambiarCursorI(ImageView imv){
+		
+		imv.getScene().setCursor(Cursor.HAND);
+	}
+	private void restaurarCursorI(ImageView imv){
+		imv.getScene().setCursor(Cursor.DEFAULT);
+	}
+	private void cambiarCursorT(Text texto){
+		
+		texto.getScene().setCursor(Cursor.HAND);
+	}
+	private void restaurarCursorT(Text texto){
+		texto.getScene().setCursor(Cursor.DEFAULT);
+	}
 
+	private void ClickImagen(ImageView imv, Text temp){
+		enviarProyecto(temp.getText());
+	}
+	private void ClickTexto(Text texto) throws IOException{
+		if(importar==0)
+		{
+			cambiarNombreP(texto.getText());
+		}
+		else{
+			Importar(texto.getText());
+		}
+		
+	}
+	@FXML
+	private void Exp(){
+		importar=1;
+	}
+	
+	private void Importar(String ruta){
+		DirectoryChooser explorador = new DirectoryChooser();
+		explorador.setTitle("Importar proyecto");
+		File directorioDestino = explorador.showDialog(new Stage());
+		
+		String userDirectoryString = System.getProperty("user.home");
+		File directorioActual = new File(userDirectoryString+"/SCA/Proyectos/"+ruta);
+		//System.out.println(directorioDestino.getAbsolutePath());
+		//System.out.print(directorioActual.getAbsolutePath());
+        Copiar(directorioActual,directorioDestino);
+        EntraIncial=0; 
+        importar=0;
+		
+	}
+
+
+	//Esta funci�n sirve para mandar el nombre del proyecto y su id
+		public void enviarProyecto(String text){
+
+			Consultas c = new Consultas();
+			t=text;
+			id=c.id_proyecto(text);
+			
+			MostrarProyecto(); //muestra la vista de proyecto
+		}	
+	
 	//Esta funci�n permite crear las carpetas automaticamente de los proyectos que se encuentran en la base de datos y mostrarlas
 	//aqui no está el onclick de aceptar de la ventana emergente, esta en controller proyectonuevoVista
 	public void agregaProyecto(){
@@ -99,17 +301,30 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		        texto.setStyle("-fx-font: NORMAL 18 Tahoma;");
 		        texto.setText(lista.get(k));
 		        texto.wrappingWidthProperty();
-		    	
+		        //importarEliminar(texto);
+		        
 		    	//Se agrega el texto
 		        pictureRegion.getChildren().add(texto);
 
 		        Text temp=(Text)pictureRegion.getChildren().get(1);	//Leo el nombre del proyecto  
-		        pictureRegion.setOnMouseClicked(e-> enviarProyecto(e,temp.getText())); //Lo guardo(?), se supone que aquí va a mostrar la siguiente vista de las imagenes del proyecto seleccionado
+		       // imv.setOnMouseClicked(e-> enviarProyecto(e,temp.getText())); //Lo guardo(?), se supone que aquí va a mostrar la siguiente vista de las imagenes del proyecto seleccionado
 		        	        										//temp.getText(), obtengo el nombre del proyecto donde di click
-		        
+		        imv.setOnMouseEntered((e->{cambiarCursorI(imv);}));
+		        imv.setOnMouseExited((e->{restaurarCursorI(imv);}));
+		        imv.setOnMouseClicked(e->{ClickImagen(imv,temp);});
+		        texto.setOnMouseEntered((e->{cambiarCursorT(texto);}));
+		        texto.setOnMouseExited((e->{restaurarCursorT(texto);}));
+		        texto.setOnMouseClicked(e->{try {
+					ClickTexto(texto);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}});
+
 		        pictureRegion.setAlignment(Pos.CENTER);
 		        pictureRegion.setMinSize(240, 210);
-		        
+		       
+		      		        
 		        //Se agrega VBox al grid en columna i fila j
 		        grid.add(pictureRegion, i, j);
 		        
@@ -126,127 +341,19 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         }
         else{
         	//Si no tengo proyectos, indico que no hay
-        	Label sinProyecto = new Label("No existe ningún proyeto");
+        	Label sinProyecto = new Label("No existe ningún proyecto");
         	sinProyecto.setStyle("-fx-font-size: 25px; -fx-margin:200;");
         	sinProyecto.setPrefWidth(600);
         	sinProyecto.setAlignment(Pos.CENTER);
         	sinProyecto.setPrefHeight(30);
         	sinProyecto.setWrapText(true);
         	grid.add(sinProyecto,0,0);
+        	grid.setAlignment(Pos.CENTER);
         }
         
-        //-------------------------C�LCULO DE LOS MOMENTOS DE DISTRIBUCI�N-----------------------------
-       /* Integer id_imagen = 102;
-        ArrayList<Integer> areas=new ArrayList<Integer>();
-        areas.addAll(new Consultas().momentos(id_imagen));
-        if(areas.size()!=0){
-	        ArrayList<Double> d=new ArrayList<Double>();
-	        for(int k=0;k<areas.size(); k++)
-	        {
-	        	
-	        	Double r = (Math.sqrt(areas.get(k))/0.005)/40.0;
-	        	 d.add(k, r);
-	        }
-	        Collections.sort(d);
-	        System.out.println(d);
-	        ArrayList<Double> clase1=new ArrayList<Double>();
-	        ArrayList<Double> clase2=new ArrayList<Double>();
-	        Double inc = (d.get(d.size()-1)-d.get(0))/d.size();
-	        System.out.println(inc);
-	        clase1.add(0, d.get(0));
-	        for(int q=1;q<d.size();q++)
-	        {
-	        	clase1.add(q, clase1.get(q-1)+inc);
-	        	clase2.add(q-1,clase1.get(q-1)+inc);
-		
-	        }
-	        clase2.add(clase2.size(), clase2.get(clase2.size()-1)+inc);
-	        ArrayList<Double> di=new ArrayList<Double>();
-	        ArrayList<Double> di2=new ArrayList<Double>(); 
-	        ArrayList<Double> di3=new ArrayList<Double>(); 
-	        ArrayList<Double> di4=new ArrayList<Double>(); 
-	        Double SD1 = 0.0;
-	        Double SD2 = 0.0;
-	        Double SD3 = 0.0;
-	        Double SD4 = 0.0;
-	      
-	       for(int q=0;q<clase2.size();q++)
-	       {
-	    	   di.add(q, (Math.sqrt((clase1.get(q)*clase2.get(q)))));
-	    	   SD1=SD1 +di.get(q);
-	    	   di2.add(q,Math.pow(di.get(q), 2));
-	    	   SD2=SD2 +di2.get(q);
-	    	   di3.add(q,Math.pow(di.get(q), 3));
-	    	   SD3=SD3 +di3.get(q);
-	    	   di4.add(q,Math.pow(di.get(q), 4));
-	    	   SD4=SD4 +di4.get(q);
-	       }
-	       System.out.println(di);
-	       System.out.println(di2);
-	       System.out.println(di3);
-	       System.out.println(di4);
-	       System.out.println("D1"+SD1+" D2"+SD2+" D3"+SD3+" D4"+SD4);
-	       //IMPORTAN----------------------------------
-	       Double D10 = SD1 / di.size();
-	       Double D20 = Math.sqrt((SD2/di.size()));
-	       Double D30 = Math.pow((SD3/di.size()), 1.0/3.0);
-	       Double D21 = SD2 /SD1;
-	       Double D31 = Math.sqrt(SD3/SD1);
-	       Double D32 = SD3/SD2;
-	       Double D43 = SD4/SD3;
-	       //---------------------------
-	       System.out.println(D10);
-	       System.out.println(D20);
-	       System.out.println(D30);
-	       System.out.println(D21);
-	       System.out.println(D31);
-	       System.out.println(D32);
-	       System.out.println(D43);
-	       ArrayList<Double> m0=new ArrayList<Double>(); 
-	       ArrayList<Double> m1=new ArrayList<Double>(); 
-	       ArrayList<Double> m2=new ArrayList<Double>(); 
-	       ArrayList<Double> m3=new ArrayList<Double>(); 
-	       Double kv=3.1416/6.0;
-	       for(int q=0;q<areas.size();q++)
-	       {
-	    	   m3.add(q,(areas.get(q)/10.0)/1.588*Math.pow(1000, 3)/kv);
-	    	   m2.add(q,m3.get(q)/D32);
-	    	   m1.add(q, m2.get(q)/D21);
-	    	   m0.add(q, m1.get(q)/D10);
-	    	  
-	       }
-	       //IMPORTAN-----------------------
-	       System.out.println(m3);
-	       System.out.println(m2);
-	       System.out.println(m1);
-	       System.out.println(m0);
-	       //IMPORTAN----------------------
-        }
-		*/
+        
 	}
 	
 	//En el menubar, la opcion "nuevo", lanza esta función, desde el fxml de ProyectoNuevo
-	@FXML
-	private void AbrirVentana() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
-		Stage principal = new Stage();
-		principal.initStyle(StageStyle.UNDECORATED);
-		Parent mainLayout = FXMLLoader.load(getClass().getResource("ProyectoNuevo.fxml"));
-        Scene scene = new Scene(mainLayout);
-        //Agrega icono 
-        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
-		principal.getIcons().add(icon);
-		
-        principal.setScene(scene);
-        principal.show();	
-	}
 	
-	//Esta funci�n sirve para mandar el nombre del proyecto y su id
-	public void enviarProyecto(javafx.scene.input.MouseEvent e,String text){
-
-		Consultas c = new Consultas();
-		t=text;
-		id=c.id_proyecto(text);
-		
-		MostrarProyecto(); //muestra la vista de proyecto
-	}	
 }

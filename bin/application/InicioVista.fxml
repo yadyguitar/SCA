@@ -11,18 +11,18 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane    prefHeight="600"  prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
-   <top >
+<BorderPane prefHeight="600" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
+   <top>
     
-    <MenuBar  minWidth="-Infinity" >
+    <MenuBar minWidth="-Infinity">
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem onAction="#AbrirVentana" mnemonicParsing="false" text="Nuevo Proyecto" />
+            <MenuItem mnemonicParsing="false" onAction="#AbrirVentana" text="Nuevo Proyecto" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Guardar Cambios"  />
+            <MenuItem mnemonicParsing="false" onAction="#Exp" text="Exportar proyecto" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cerrar" />
+            <MenuItem mnemonicParsing="false" onAction="#CerrarPrograma" text="Cerrar" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edición">
@@ -37,7 +37,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Ayuda">
           <items>
-            <MenuItem mnemonicParsing="false" text="Acerca de SCA" />
+            <MenuItem mnemonicParsing="false" onAction="#Acercade" text="Acerca de SCA" />
           </items>
         </Menu>
       </menus>
@@ -45,17 +45,19 @@
    </top>
   <center>
   
-  <ScrollPane fx:id="scroll"  fitToWidth="true" fitToHeight="true" >
-         <GridPane fx:id="grid"   >
+  <ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true">
+     <content>
+            <GridPane fx:id="grid">
          </GridPane>
+     </content>
    </ScrollPane>
    </center>
-     <bottom  >
+     <bottom>
      
-         <HBox minHeight="25" maxHeight="25" prefHeight="25.0" >
+         <HBox maxHeight="25" minHeight="25" prefHeight="25.0">
          <children>
           
-           <Label fx:id="inicio" onMouseClicked="#MostrarInicio" text="  Inicio" >
+           <Label fx:id="inicio" onMouseClicked="#MostrarInicio" text="  Inicio">
                <font>
                   <Font size="14.0" />
                </font>

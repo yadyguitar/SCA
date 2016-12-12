@@ -35,9 +35,9 @@ public class Framework extends Application {
 		Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
 		principal.getIcons().add(icon);
 		//principal.setMaximized(true);
-		principal.setMinHeight(625);
+		principal.setMinHeight(640);
 		principal.setMinWidth(1200);
-		principal.setMaxHeight(625);
+		principal.setMaxHeight(640);
 		principal.setMaxWidth(1200);
         principal.show();
     }

@@ -21,6 +21,7 @@ public class Consultas extends Conexion{
 	public ArrayList<String> lista1=new ArrayList<String>();
 
 	public List<Integer> lista2=new ArrayList<Integer>();
+	public List<String> rutas=new ArrayList<String>();
 	public List<Integer> areas=new ArrayList<Integer>();
 	
 	//Funciones para buscar datos---------------------------------------------------------------------
@@ -244,7 +245,7 @@ public class Consultas extends Conexion{
 	         return 0;
 	 }
 
-	 public List<Integer> momentos(Integer id_imagen){
+	 public List<Integer> momentos(Integer min, String NombreProyecto){
 			
 	        PreparedStatement pst;
 	        pst = null;
@@ -253,7 +254,7 @@ public class Consultas extends Conexion{
 	        //CONSULTA EN LA BD
 	        try{
 	            //COMANDO PARA HACER LA CONSULTA EN LA BD
-	            String consultaUsuario ="SELECT * from poligono WHERE id_imagen='"+id_imagen+"'";
+	            String consultaUsuario ="SELECT * FROM poligono,imagen,proyecto where poligono.id_imagen = imagen.id_imagen && imagen.minuto = '"+min+"' && imagen.id_proyecto = proyecto.id_proyecto && proyecto.NombreProyecto = '"+NombreProyecto+"';";
 	            //PREPARA LA CONEXIï¿½N
 	            pst = getConexion().prepareStatement(consultaUsuario);
 
@@ -290,6 +291,7 @@ public class Consultas extends Conexion{
 	        
 			return null;
 	 }
+	 
 	 //Funciones para insertar datos------------------------------------------------------------------
 	 public boolean agregar_proyecto(String NombreProyecto){
 		 PreparedStatement pst;
@@ -411,5 +413,173 @@ public class Consultas extends Conexion{
 	        }
 	       
 		 return false;
-	 }  
+	 }
+	//Devuelve una lista de las imagenes que se encuentran en el proyecto ingresado como parÃ¡metro
+		 public boolean actualizaProyecto(String nombre,String NombreProyecto){
+			
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		        	String consultaUsuario ="Update proyecto set NombreProyecto = '"+nombre +"' where NombreProyecto = '"+NombreProyecto+"'"; 		
+
+		        	//PREPARA LA CONEXIï¿½N
+		            pst = getConexion().prepareStatement(consultaUsuario);
+		           
+		            //EJECUTA LA CONSULTA
+		            pst.executeUpdate(consultaUsuario);
+		            return true;
+		           				
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return false;
+		 }
+		//Devuelve una lista de las imagenes que se encuentran en el proyecto ingresado como parÃ¡metro
+		 public List<String> rutas(String NombreProyecto){
+			
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		            String consultaUsuario ="SELECT * from proyecto,imagen WHERE NombreProyecto='"+NombreProyecto+"' and proyecto.id_proyecto = imagen.id_proyecto";
+		            //PREPARA LA CONEXIï¿½N
+		            pst = getConexion().prepareStatement(consultaUsuario);
+		           
+		            //EJECUTA LA CONSULTA
+		            rs = pst.executeQuery(); 
+		           
+			        boolean r=rs.next();
+					while (r) {
+						rutas.add(rs.getString("URL"));
+						System.out.println(rutas);
+						//System.out.println("Hola");
+						r=rs.next();
+					}
+		            
+		        return rutas;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return null;
+		 }
+		 public boolean actualizaRuta(String rutaO, String rutaD){
+			
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		        	String consultaUsuario ="Update imagen set URL = '"+rutaD +"' where URL = '"+rutaO+"'"; 		
+
+		        	//PREPARA LA CONEXIï¿½N
+		        	 pst = getConexion().prepareStatement(consultaUsuario);
+			           
+			            //EJECUTA LA CONSULTA
+			            pst.executeUpdate(consultaUsuario);
+			            return true;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return false;
+		 }
+		 
+		 public boolean actualizaImagen(String NombreProyecto, Integer minuto1, Integer minuto2){
+				
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		        	String consultaUsuario ="UPDATE IMAGEN, PROYECTO SET MINUTO = '"+minuto1+"' WHERE imagen.id_proyecto = proyecto.id_proyecto && proyecto.NombreProyecto='"+NombreProyecto+"' && imagen.minuto = '"+minuto2+"'"; 		
+
+		        	//PREPARA LA CONEXIï¿½N
+		        	 pst = getConexion().prepareStatement(consultaUsuario);
+			           
+			            //EJECUTA LA CONSULTA
+			            pst.executeUpdate(consultaUsuario);
+			            return true;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return false;
+		 }
+	 
+	 
+	 
+	 
 }

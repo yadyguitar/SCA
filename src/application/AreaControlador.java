@@ -2,6 +2,7 @@ package application;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,9 +11,12 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -24,6 +28,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 
@@ -34,6 +40,9 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	@FXML Label NombreProyecto =null;
 	@FXML Label NombreImagen=null;
 	@FXML Label inicio;
+	@FXML Label nom;
+	@FXML Label x;
+	@FXML Label y;
 	ScreensController myController; 
     ProyectoControlador pro= new ProyectoControlador();
     InicioControlador ini = new InicioControlador();
@@ -93,6 +102,23 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	private void MostrarImagen(){
 		myController.setScreen(Framework.screen3ID);
 	}
+	@FXML
+	public void CerrarPrograma(){
+		Framework.principal.close();
+	}
+	@FXML
+	private void Acercade() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		Stage principal = new Stage();
+		principal.initStyle(StageStyle.UNDECORATED);
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("Acercade.fxml"));
+        Scene scene = new Scene(mainLayout);
+        //Agrega icono 
+        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
+		principal.getIcons().add(icon);
+		
+        principal.setScene(scene);
+        principal.show();	
+	}
 	//Funci�n que crea la imagen a seleccionar
 	 public boolean subirImagen(String url){
 		 try{
@@ -117,6 +143,8 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 
 	 
 	 public void dibujaOnMove(MouseEvent e){
+		 x.setText("x: " +String.valueOf(e.getX()));
+		 y.setText("y: "+String.valueOf(e.getY()));
 		 if(band==1){
 			 actualiza();
 			// System.out.println(e.getX() +", "+ e.getY());
@@ -172,7 +200,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 			 gc.beginPath();
 			 for (int i=1;i<coords.size();i+=2){
 				 gc.lineTo(coords.get(i-1), coords.get(i));
-				 gc.stroke();
+				 gc.stroke();		 
 			 }
 		 }
 	 }
@@ -207,6 +235,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 		 for (Node node: area_results.getChildren()){
 			 
 			 if(node.getBoundsInParent().contains(e.getX(), e.getY())){
+				// System.out.println("x: " +coords.get(i-1)+ "y: "+coords.get(i) );
 				 indice=area_results.getRowIndex(node);
 				 area_results.getChildren().get(indice).setStyle("-fx-background-color: #8fbc8f;");
 				 
@@ -250,6 +279,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 }
 	 public void guardar(){
 	 int id_imagen=new Consultas().id_imagen(url2);
+	 System.out.println(url2);
 	 if(saveToFile()){
 		 if(new Consultas().agregar_poligonos(id_imagen, areas)){
 				 //System.out.println("Se guarda correctamente (:");

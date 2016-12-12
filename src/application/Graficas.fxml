@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GraficasController">
-<top>
-</top>
 
-<center>
-
-<LineChart  fx:id="m0" nodeOrientation="RIGHT_TO_LEFT"  animated="false" fx:id="flujo" prefHeight="200" prefWidth="720">
-        			<xAxis><NumberAxis fx:id="xm0"  TickUnit="10" lowerBound="0"  upperBound="60"   /></xAxis>
-       				<yAxis><NumberAxis fx:id="ym0" TickUnit="20" lowerBound="0"  upperBound="100"   /></yAxis>
-</LineChart>
-
-</center>
-
-<buttom>
-</buttom>
-	<!-- TODO Add Nodes -->
+<BorderPane prefHeight="428.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="application.GraficasController">
+   <center>
+      <LineChart title="Momento 0 (número)" BorderPane.alignment="CENTER">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </center>
+   <bottom>
+      <TableView prefHeight="77.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+   </bottom>
 </BorderPane>
-
