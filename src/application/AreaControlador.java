@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +52,8 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	int cont =0;
 	Canvas canvas;
 	GraphicsContext gc;
+	Integer band2 = 0;
+	Integer ant = 0;
 	String url2;
 	int band=0,indice=-1;
 	List< List<Float> > poligonos;
@@ -159,7 +163,9 @@ public class AreaControlador implements Initializable, ControladorVentanas
 	 
 	 public void dibujaLinea(MouseEvent e){
 		 band=1;
-		 indice=-1;http://www.heaventools.com/overview.htm
+		 if(area_results.getChildren().size() !=0)
+			 area_results.getChildren().get(ant).setStyle("-fx-background-color: transparent");
+		 indice=-1;
 		 gc.beginPath();
 		 gc.lineTo(e.getX(),e.getY());
 		 gc.stroke();
@@ -217,7 +223,7 @@ public class AreaControlador implements Initializable, ControladorVentanas
 			 temp+=resultado.get(i);
 	 	 }
 		 float res=Math.round( ((0.5)*Math.abs(temp)) );   
-		 areas.add(new Label(""+res));
+		 areas.add(new Label("A: "+res));
 		 //System.out.println(areas);
 		 agrega_campo();
 	 }
@@ -236,8 +242,20 @@ public class AreaControlador implements Initializable, ControladorVentanas
 			 
 			 if(node.getBoundsInParent().contains(e.getX(), e.getY())){
 				// System.out.println("x: " +coords.get(i-1)+ "y: "+coords.get(i) );
-				 indice=area_results.getRowIndex(node);
-				 area_results.getChildren().get(indice).setStyle("-fx-background-color: #8fbc8f;");
+				 //if(band2 == 0){
+					 indice=area_results.getRowIndex(node);
+					 area_results.getChildren().get(indice).setStyle("-fx-background-color: #8fbc8f;");
+					 if(area_results.getChildren().size()!=1)
+					 area_results.getChildren().get(ant).setStyle("-fx-background-color: transparent");
+
+					 ant = indice;
+					// band2 = 1;
+				 //}
+				 //else{
+					// indice=area_results.getRowIndex(node);
+					// ant = indice;
+					// band2 = 0;
+				 //}
 				 
 				 List<Float> temp=poligonos.get(indice);
 				 
@@ -326,5 +344,26 @@ public class AreaControlador implements Initializable, ControladorVentanas
 			coords.clear();
 			actualiza();
 		}
-	} 	  
+	} 	 
+	@FXML
+	public void tecla(KeyEvent e) throws IOException{
+	
+		if (e.getCode() == KeyCode.A && e.isControlDown()) { 
+			Acercade();
+			
+	    }
+		if (e.getCode() == KeyCode.S && e.isControlDown()) { 
+			guardar();
+			JOptionPane.showMessageDialog(null, "Se han guardado los cambios");
+
+			
+	    }
+		if (e.getCode() == KeyCode.DELETE ) { 
+			eliminar();
+			
+	    }
+		
+		
+		
+	} 	
 }

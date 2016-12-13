@@ -11,42 +11,34 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProyectoControlador">
+<BorderPane onKeyPressed="#tecla" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProyectoControlador">
    <top>
     
     <MenuBar BorderPane.alignment="CENTER">
       <menus>
-        <Menu mnemonicParsing="false" text="Archivo">
+        <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Archivo">
           <items>
-            <MenuItem onAction="#AbrirVentana" mnemonicParsing="false" text="Agregar Imágenes" />
-            <MenuItem mnemonicParsing="false" text="Exportar imagen" />
+            <MenuItem mnemonicParsing="false" onAction="#AbrirVentana"   text="Agregar Imágenes | Ctrl + N" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem onAction="#CerrarPrograma" mnemonicParsing="false" text="Cerrar" />
+            <MenuItem mnemonicParsing="false" onAction="#EliminarImagen"           text="Eliminar imagen     | Ctrl + D" />
+            <MenuItem mnemonicParsing="false" onAction="#ExpI"           text="Exportar imagen    | Ctrl + E" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#CerrarPrograma" text="Cerrar" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edición">
+         <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Gráficas">
           <items>
-            
-            <MenuItem mnemonicParsing="false" text="Seleccionar para Eliminar" />
-            <MenuItem mnemonicParsing="false" text="Seleccionar para Editar" />
+            <MenuItem mnemonicParsing="false" onAction="#GraficaM0" text="Momento 0 |  F1" />
+            <MenuItem mnemonicParsing="false" onAction="#GraficaM1" text="Momento 1 | F2" />
+            <MenuItem mnemonicParsing="false" onAction="#GraficaM2" text="Momento 2 | F3" />
+            <MenuItem mnemonicParsing="false" onAction="#GraficaM3" text="Momento 3 | F4" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Eliminar" />
-            
+            <MenuItem mnemonicParsing="false" onAction="#GraficaTodos" text="Todos los momentos | Ctrl + M" />
           </items>
         </Menu>
-         <Menu mnemonicParsing="false"  text="Gráficas">
+        <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Ayuda">
           <items>
-            <MenuItem onAction="#GraficaM0" mnemonicParsing="false" text="Momento 0" />
-            <MenuItem onAction="#GraficaM1" mnemonicParsing="false" text="Momento 1" />
-            <MenuItem onAction="#GraficaM2" mnemonicParsing="false" text="Momento 2" />
-            <MenuItem onAction="#GraficaM3" mnemonicParsing="false" text="Momento 3" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem  mnemonicParsing="false" text="Todos los momentos"/>
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Ayuda">
-          <items>
-            <MenuItem onAction="#Acercade" mnemonicParsing="false" text="Acerca de SCA" />
+            <MenuItem mnemonicParsing="false" onAction="#Acercade" text="Acerca de SCA | Ctrl + A" />
           </items>
         </Menu>
       </menus>
@@ -54,22 +46,24 @@
    </top>
   <center>
   
-  <ScrollPane fx:id="scroll" hbarPolicy="NEVER" >
-         <GridPane fx:id="grid" alignment="CENTER">
+  <ScrollPane fx:id="scroll" hbarPolicy="NEVER">
+     <content>
+            <GridPane fx:id="grid" alignment="CENTER">
            
          </GridPane>
+     </content>
    </ScrollPane>
    </center>
      <bottom>
      
-     	 <HBox  prefHeight="25.0">
+     	 <HBox prefHeight="25.0">
          <children>
          <Label fx:id="inicio" onMouseClicked="#MostrarInicio" text="  Inicio">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="textoProyecto"  onMouseClicked="#MostrarProyecto"  text="Proyecto">
+            <Label fx:id="textoProyecto" onMouseClicked="#MostrarProyecto" text="Proyecto">
                <font>
                   <Font size="14.0" />
                </font>

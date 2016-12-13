@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="ventanaProyecto" onKeyPressed="#tecla" prefHeight="159.0" prefWidth="400.0" style="-fx-background-color: #F0ECEA; -fx-border-color: #7E87E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.cambiarNombreImagen">
+<AnchorPane fx:id="ventanaProyecto" onKeyPressed="#tecla" prefHeight="159.0" prefWidth="400.0" style="-fx-background-color: #F0ECEA; -fx-border-color: #7E87E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EliminarImagenControlador">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="67.0" text="Ingrese el nuevo minuto:" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="67.0" text="Imagen a eliminar:" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="aceptar" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#actualizarNombreI" prefHeight="25.0" prefWidth="79.0" text="Aceptar" />
-      <ComboBox fx:id="minuto" layoutX="200.0" layoutY="67.0" prefHeight="25.0" prefWidth="184.0" />
+      <Button fx:id="aceptar" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#eliminar" prefHeight="25.0" prefWidth="79.0" text="Aceptar" />
+      <ComboBox fx:id="proyecto" layoutX="200.0" layoutY="67.0" prefHeight="25.0" prefWidth="184.0" />
       <ToolBar prefHeight="40.0" prefWidth="400.0" style="-fx-background-color: #BBC6E4;">
         <items>
           <Button fx:id="cancelar" mnemonicParsing="false" onMouseClicked="#CerrarVentana" style="-fx-background-color: #7E87E4; -fx-translate-x: 358;" text="X" textFill="WHITE" />

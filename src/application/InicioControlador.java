@@ -1,22 +1,13 @@
 package application;
 
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle.Control;
-
-import javax.swing.JFileChooser;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,14 +19,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.FileChooser.ExtensionFilter;
 
 
 
@@ -46,6 +37,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	
 	ScreensController myController; 
 	static public String textonuevo;
+	static public String ruta;
 	public static int  EntraIncial=0;    
 	static public String t; 	//Sirve para almacenar el nombre del proyecto cuando es seleccionado
 	static public Integer id; 	//Almacena el id del proyecto seleccionado
@@ -53,7 +45,7 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 	private int i = 0;			//para moverse por las columnas del grid
 	private int j = 0;			//para moverse por las filas del grid
 	private int k=0;			//Un contador para recorrer las carpetas totales
-	int importar = 0;
+	int Exportar = 0;
 	VBox pictureRegion;			
 	//Variables del fxml---------------------------------------------------------------------------
 	@FXML GridPane grid;
@@ -65,11 +57,12 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		// TODO Auto-generated method stub
 		
 		agregaProyecto();
-		
-		inicio.setCursor(Cursor.CLOSED_HAND);
+		{
+			
+		}
 	}
 	@FXML
-	private void cambiarNombreP(String j) throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+	private void cambiarNombreP() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
 		Stage principal = new Stage();
 		principal.initStyle(StageStyle.UNDECORATED);
 		Parent mainLayout = FXMLLoader.load(getClass().getResource("cambiarNombreProyecto.fxml"));
@@ -77,10 +70,10 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         //Agrega icono 
         Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
 		principal.getIcons().add(icon);
-		textonuevo = j;
         principal.setScene(scene);
         principal.show();	
 	}
+
 	//Funci�n que sirve para mandar una vista-----------------------------------------------------
 	public void setScreenParent(ScreensController screenParent){ 
         myController = screenParent; 
@@ -123,6 +116,19 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		Stage principal = new Stage();
 		principal.initStyle(StageStyle.UNDECORATED);
 		Parent mainLayout = FXMLLoader.load(getClass().getResource("Acercade.fxml"));
+        Scene scene = new Scene(mainLayout);
+        //Agrega icono 
+        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
+		principal.getIcons().add(icon);
+		
+        principal.setScene(scene);
+        principal.show();	
+	}
+	@FXML
+	private void EliminarProyecto() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		Stage principal = new Stage();
+		principal.initStyle(StageStyle.UNDECORATED);
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("EliminarProyecto.fxml"));
         Scene scene = new Scene(mainLayout);
         //Agrega icono 
         Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
@@ -229,36 +235,38 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		texto.getScene().setCursor(Cursor.DEFAULT);
 	}
 
-	private void ClickImagen(ImageView imv, Text temp){
-		enviarProyecto(temp.getText());
-	}
-	private void ClickTexto(Text texto) throws IOException{
-		if(importar==0)
+	private void ClickImagen(ImageView imv, Text temp,Text texto){
+		if(Exportar==0)
 		{
-			cambiarNombreP(texto.getText());
+			enviarProyecto(temp.getText());
 		}
 		else{
-			Importar(texto.getText());
+			ruta=(texto.getText());
+			Exportar();
 		}
-		
-	}
-	@FXML
-	private void Exp(){
-		importar=1;
 	}
 	
-	private void Importar(String ruta){
-		DirectoryChooser explorador = new DirectoryChooser();
-		explorador.setTitle("Importar proyecto");
-		File directorioDestino = explorador.showDialog(new Stage());
-		
-		String userDirectoryString = System.getProperty("user.home");
-		File directorioActual = new File(userDirectoryString+"/SCA/Proyectos/"+ruta);
-		//System.out.println(directorioDestino.getAbsolutePath());
-		//System.out.print(directorioActual.getAbsolutePath());
-        Copiar(directorioActual,directorioDestino);
-        EntraIncial=0; 
-        importar=0;
+	@FXML
+	private void Exp(){
+		Exportar=1;
+	}
+	
+	private void Exportar(){
+		if(Exportar==1){
+			DirectoryChooser explorador = new DirectoryChooser();
+			explorador.setTitle("Exportar proyecto");
+			File directorioDestino = explorador.showDialog(new Stage());
+			if(directorioDestino!=null){
+				String userDirectoryString = System.getProperty("user.home");
+				File directorioActual = new File(userDirectoryString+"/SCA/Proyectos/"+ruta);
+				//System.out.println(directorioDestino.getAbsolutePath());
+				//System.out.print(directorioActual.getAbsolutePath());
+		        Copiar(directorioActual,directorioDestino);
+		        EntraIncial=0; 
+			}
+			 Exportar=0;
+		}
+		System.out.println(Exportar);
 		
 	}
 
@@ -311,11 +319,13 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		        	        										//temp.getText(), obtengo el nombre del proyecto donde di click
 		        imv.setOnMouseEntered((e->{cambiarCursorI(imv);}));
 		        imv.setOnMouseExited((e->{restaurarCursorI(imv);}));
-		        imv.setOnMouseClicked(e->{ClickImagen(imv,temp);});
+		        imv.setOnMouseClicked(e->{ClickImagen(imv,temp,texto);});
 		        texto.setOnMouseEntered((e->{cambiarCursorT(texto);}));
 		        texto.setOnMouseExited((e->{restaurarCursorT(texto);}));
+				textonuevo = texto.getText();
 		        texto.setOnMouseClicked(e->{try {
-					ClickTexto(texto);
+		        	
+					cambiarNombreP();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -328,7 +338,6 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 		        //Se agrega VBox al grid en columna i fila j
 		        grid.add(pictureRegion, i, j);
 		        
-		        
 		        i++;
 		        //Si ya son 4 columnas
 		        if(i==MAX)
@@ -340,8 +349,8 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
 			}
         }
         else{
-        	//Si no tengo proyectos, indico que no hay
-        	Label sinProyecto = new Label("No existe ningún proyecto");
+        	//Si no tengo proyectos,
+        	Label sinProyecto = new Label("No existe ning�n proyecto");
         	sinProyecto.setStyle("-fx-font-size: 25px; -fx-margin:200;");
         	sinProyecto.setPrefWidth(600);
         	sinProyecto.setAlignment(Pos.CENTER);
@@ -353,6 +362,26 @@ public class InicioControlador  implements Initializable,ControladorVentanas{
         
         
 	}
+	
+	@FXML
+	public void tecla(KeyEvent e) throws IOException{
+	
+		if (e.getCode() == KeyCode.N && e.isControlDown()) { 
+			AbrirVentana();
+	    }
+		if (e.getCode() == KeyCode.D && e.isControlDown()) { 
+			EliminarProyecto();
+	    }
+		if (e.getCode() == KeyCode.E && e.isControlDown()) { 
+			agregaProyecto();
+			Exportar=1;
+	    }
+		if (e.getCode() == KeyCode.A && e.isControlDown()) { 
+			Acercade();
+			
+	    }
+		
+	} 	
 	
 	//En el menubar, la opcion "nuevo", lanza esta función, desde el fxml de ProyectoNuevo
 	

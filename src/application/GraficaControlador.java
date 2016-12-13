@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -32,7 +33,8 @@ import javafx.stage.Stage;
 
 public class GraficaControlador implements Initializable{
 	@FXML Button cerrar1;
-	@FXML LineChart grafica;
+	@FXML LineChart<? , ?> grafica;
+	@FXML CategoryAxis x;
 	@FXML NumberAxis xm0;
 	@FXML NumberAxis ym0;
 	@FXML TableView<Double> datos;
@@ -43,7 +45,7 @@ public class GraficaControlador implements Initializable{
 	@FXML Label d31;
 	@FXML Label d32;
 	@FXML Label d43;
-	private Double D10, D20, D30, D21,D31,D32, D43; 
+	private Double D10 = 0.0, D20 = 0.0, D30=0.0, D21 =0.0,D31 =0.0,D32 =0.0, D43 =0.0; 
 	private Double pd10 = 0.0, pd20 =0.0, pd30=0.0, pd21=0.0, pd31=0.0, pd32=0.0, pd43=0.0;
 	private Double mm0=0.0, mm1=0.0, mm2=0.0, mm3=0.0;
 	int contador = 0;
@@ -53,6 +55,11 @@ public class GraficaControlador implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		XYChart.Series series = new XYChart.Series();	
+		XYChart.Series series0 = new XYChart.Series();
+		XYChart.Series series1 = new XYChart.Series();
+		XYChart.Series series2 = new XYChart.Series();
+		XYChart.Series series3 = new XYChart.Series();
 		for(int i=10;i<=240;i=i+10){
 		
 			momentosD(i);
@@ -66,6 +73,38 @@ public class GraficaControlador implements Initializable{
 			d32.setText(String.valueOf(df.format(pd32/contador)));
 			d43.setText(String.valueOf(df.format(pd43/contador)));
 			
+			if(pro.momento==0){
+				series.getData().add(new XYChart.Data(String.valueOf(i),mm0));
+				series.setName("Momento 0");
+				grafica.setTitle("Momento 0 (Longitud)");
+			}
+			if(pro.momento==1){
+				series.getData().add(new XYChart.Data(String.valueOf(i),mm1));
+				series.setName("Momento 1");
+				grafica.setTitle("Momento 1 (Número)");
+			}
+			if(pro.momento==2){
+				series.getData().add(new XYChart.Data(String.valueOf(i),mm2));
+				series.setName("Momento 2");
+				grafica.setTitle("Momento 2 (Masa)");
+			}
+			if(pro.momento==3){
+				series.getData().add(new XYChart.Data(String.valueOf(i),(mm3)));
+				series.setName("Momento 3");
+				grafica.setTitle("Momento 3 (Volumen)");
+			}
+			if(pro.momento==4){
+				grafica.setTitle("Todos los momentos");
+				series0.getData().add(new XYChart.Data(String.valueOf(i),mm0/100));
+				series0.setName("Momento 0 (x10+2");
+				series1.getData().add(new XYChart.Data(String.valueOf(i),mm1/1000));
+				series1.setName("Momento 1 (x10+3)");
+				series2.getData().add(new XYChart.Data(String.valueOf(i),mm2/100000.0));
+				series2.setName("Momento 2 (x10+5)");
+				series3.getData().add(new XYChart.Data(String.valueOf(i),(mm3/10000000.0)));
+				series3.setName("Momento 3 (x10+7)");
+				
+			}
 			//momento 1
 			//X - > i   y -> mm0
 			//momento 2
@@ -74,6 +113,15 @@ public class GraficaControlador implements Initializable{
 			
 			
 		}
+		if(pro.momento==4)
+		{
+			grafica.getData().addAll(series0);
+			grafica.getData().addAll(series1);
+			grafica.getData().addAll(series2);
+			grafica.getData().addAll(series3);
+			
+		}else
+			grafica.getData().addAll(series);
 	}
 
 	
@@ -102,10 +150,11 @@ public class GraficaControlador implements Initializable{
 		//-------------------------Cï¿½LCULO DE LOS MOMENTOS DE DISTRIBUCIï¿½N-----------------------------
        
         ArrayList<Integer> areas=new ArrayList<Integer>();
-        System.out.println(ini.t);
+       // System.out.println(ini.t);
         areas.addAll(new Consultas().momentos(min,ini.t));
         if(areas.size()!=0){
         	contador ++;
+        	System.out.println("cont: "+contador);
 	        ArrayList<Double> d=new ArrayList<Double>();
 	        for(int k=0;k<areas.size(); k++)
 	        {
@@ -114,11 +163,11 @@ public class GraficaControlador implements Initializable{
 	        	 d.add(k, r);
 	        }
 	        Collections.sort(d);
-	        System.out.println(d);
+	        //System.out.println("d: " +d);
 	        ArrayList<Double> clase1=new ArrayList<Double>();
 	        ArrayList<Double> clase2=new ArrayList<Double>();
 	        Double inc = (d.get(d.size()-1)-d.get(0))/d.size();
-	        System.out.println(inc);
+	        System.out.println("inc: "+inc);
 	        clase1.add(0, d.get(0));
 	        for(int q=1;q<d.size();q++)
 	        {
@@ -126,7 +175,9 @@ public class GraficaControlador implements Initializable{
 	        	clase2.add(q-1,clase1.get(q-1)+inc);
 		
 	        }
+	        if(clase2.size()>0){
 	        clase2.add(clase2.size(), clase2.get(clase2.size()-1)+inc);
+	        }
 	        ArrayList<Double> di=new ArrayList<Double>();
 	        ArrayList<Double> di2=new ArrayList<Double>(); 
 	        ArrayList<Double> di3=new ArrayList<Double>(); 
@@ -135,7 +186,6 @@ public class GraficaControlador implements Initializable{
 	        Double SD2 = 0.0;
 	        Double SD3 = 0.0;
 	        Double SD4 = 0.0;
-	      
 	       for(int q=0;q<clase2.size();q++)
 	       {
 	    	   di.add(q, (Math.sqrt((clase1.get(q)*clase2.get(q)))));
@@ -150,16 +200,18 @@ public class GraficaControlador implements Initializable{
 	       /*System.out.println(di);
 	       System.out.println(di2);
 	       System.out.println(di3);
-	       System.out.println(di4);
-	       System.out.println("D1"+SD1+" D2"+SD2+" D3"+SD3+" D4"+SD4);*/
+	       System.out.println(di4);*/
+	       System.out.println("D1: "+SD1+"D2: "+SD2+"D3: "+SD3+"D4: "+SD4);
 	       //IMPORTAN----------------------------------
-	       D10 = SD1 / di.size();
-	       D20 = Math.sqrt((SD2/di.size()));
-	       D30 = Math.pow((SD3/di.size()), 1.0/3.0);
-	       D21 = SD2 /SD1;
-	       D31 = Math.sqrt(SD3/SD1);
-	       D32 = SD3/SD2;
-	       D43 = SD4/SD3;
+	       if(di.size()>0){
+		       D10 = SD1 / di.size();
+		       D20 = Math.sqrt((SD2/di.size()));
+		       D30 = Math.pow((SD3/di.size()), 1.0/3.0);
+		       D21 = SD2 /SD1;
+		       D31 = Math.sqrt(SD3/SD1);
+		       D32 = SD3/SD2;
+		       D43 = SD4/SD3;
+	       }
 	       pd10 = pd10 + D10;
 	       pd20 = pd20 + D20;
 	       pd30 = pd30 + D30;

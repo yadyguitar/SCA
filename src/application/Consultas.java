@@ -23,6 +23,7 @@ public class Consultas extends Conexion{
 	public List<Integer> lista2=new ArrayList<Integer>();
 	public List<String> rutas=new ArrayList<String>();
 	public List<Integer> areas=new ArrayList<Integer>();
+	public List<Integer> id_imagen=new ArrayList<Integer>();
 	
 	//Funciones para buscar datos---------------------------------------------------------------------
 	
@@ -501,6 +502,53 @@ public class Consultas extends Conexion{
 		        
 				return null;
 		 }
+		//Devuelve una lista de las imagenes que se encuentran en el proyecto ingresado como parÃ¡metro
+		 public List<Integer> id_i(String NombreProyecto){
+				System.out.println(NombreProyecto);
+			
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		            String consultaUsuario ="SELECT * FROM proyecto, imagen where proyecto.id_proyecto = imagen.id_proyecto && proyecto.NombreProyecto = '"+NombreProyecto+"';";
+		            //PREPARA LA CONEXIï¿½N
+		            pst = getConexion().prepareStatement(consultaUsuario);
+		           
+		            //EJECUTA LA CONSULTA
+		            rs = pst.executeQuery(); 
+		           
+			        boolean r=rs.next();
+					while (r) {
+						id_imagen.add(rs.getInt("id_imagen"));
+						//System.out.println("Hola");
+						r=rs.next();
+					}
+		            
+		        return id_imagen;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return null;
+		 }
 		 public boolean actualizaRuta(String rutaO, String rutaD){
 			
 		        PreparedStatement pst;
@@ -578,6 +626,159 @@ public class Consultas extends Conexion{
 		        
 				return false;
 		 }
+		 public boolean EliminaPol(Integer id_imagen){
+				
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		        	String consultaUsuario ="delete from poligono where poligono.id_imagen = '"+id_imagen+"'"; 		
+
+		        	//PREPARA LA CONEXIï¿½N
+		        	 pst = getConexion().prepareStatement(consultaUsuario);
+			           
+			            //EJECUTA LA CONSULTA
+			            pst.executeUpdate(consultaUsuario);
+			            return true;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return false;
+		 }
+		 public boolean EliminaI(Integer id_proyecto){
+				
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		        	String consultaUsuario ="DELETE FROM sca.imagen where imagen.id_proyecto = '"+id_proyecto+"'"; 		
+
+		        	//PREPARA LA CONEXIï¿½N
+		        	 pst = getConexion().prepareStatement(consultaUsuario);
+			           
+			            //EJECUTA LA CONSULTA
+			            pst.executeUpdate(consultaUsuario);
+			            return true;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return false;
+		 }
+		 public boolean EliminaId(Integer id_imagen){
+				
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		        	String consultaUsuario ="DELETE FROM sca.imagen where imagen.id_imagen = '"+id_imagen+"'"; 		
+
+		        	//PREPARA LA CONEXIï¿½N
+		        	 pst = getConexion().prepareStatement(consultaUsuario);
+			           
+			            //EJECUTA LA CONSULTA
+			            pst.executeUpdate(consultaUsuario);
+			            return true;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return false;
+		 }
+		 public boolean EliminaP(String NombreProyecto){
+				
+		        PreparedStatement pst;
+		        pst = null;
+		        ResultSet rs= null;
+		      
+		        //CONSULTA EN LA BD
+		        try{
+		            //COMANDO PARA HACER LA CONSULTA EN LA BD
+		        	String consultaUsuario ="DELETE FROM proyecto where proyecto.NombreProyecto = '"+NombreProyecto+"';"; 		
+
+		        	//PREPARA LA CONEXIï¿½N
+		        	 pst = getConexion().prepareStatement(consultaUsuario);
+			           
+			            //EJECUTA LA CONSULTA
+			            pst.executeUpdate(consultaUsuario);
+			            return true;
+		        //EN CASO DE HABER ERROR MANDAR MENSAJE
+		        }catch(Exception e){
+		        	System.out.println("HOLA");
+		            System.err.println("ERROR " +e);
+		        }
+		        finally{
+		            //SI SE PUDO HACER TODO, DESPUES DE MANDAR RESULTADO, CERRAR TODO
+		            try{
+		                if(getConexion()!=null) getConexion().close();
+		                if(pst != null) pst.close();
+		                if(rs!=null) rs.close();
+		            }
+		            //SI NO MANDAR ERROR
+		            catch (Exception e)
+		            {
+		                System.err.println("ERROR "+ e);
+		            }
+		        }
+		        
+				return false;
+		 }
+		 
 	 
 	 
 	 

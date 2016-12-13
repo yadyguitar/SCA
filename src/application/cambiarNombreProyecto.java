@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -31,7 +34,7 @@ public class cambiarNombreProyecto implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		ventanaProyecto.setStyle("-fx-background-color: #92A4E8;");
+		//ventanaProyecto.setStyle("-fx-background-color: #92A4E8;");
 		
 	}
 
@@ -77,6 +80,7 @@ public class cambiarNombreProyecto implements Initializable{
 	        	directorioActual.delete();
 	        
 	        //lista.addAll(co.rutas());
+			JOptionPane.showMessageDialog(null, "Operación exitosa");
 			changeLocale();
 		}
 		Stage stage = (Stage) cancelar.getScene().getWindow();

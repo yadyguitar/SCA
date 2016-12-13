@@ -36,9 +36,9 @@ public class Framework extends Application {
 		principal.getIcons().add(icon);
 		//principal.setMaximized(true);
 		principal.setMinHeight(640);
-		principal.setMinWidth(1200);
+		principal.setMinWidth(1215);
 		principal.setMaxHeight(640);
-		principal.setMaxWidth(1200);
+		principal.setMaxWidth(1215);
         principal.show();
     }
  
@@ -52,6 +52,7 @@ public class Framework extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
     }
 }
 	

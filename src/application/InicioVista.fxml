@@ -9,35 +9,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.HBox.*?>
 
-<BorderPane prefHeight="600" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
+<BorderPane onKeyPressed="#tecla" prefHeight="600" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InicioControlador">
    <top>
     
-    <MenuBar minWidth="-Infinity">
+    <MenuBar>
       <menus>
-        <Menu mnemonicParsing="false" text="Archivo">
+        <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#AbrirVentana" text="Nuevo Proyecto" />
+            <MenuItem mnemonicParsing="false" onAction="#AbrirVentana" text="Nuevo Proyecto    | Ctrl + N" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#Exp" text="Exportar proyecto" />
+            <MenuItem mnemonicParsing="false" onAction="#EliminarProyecto" text="EliminarProyecto   | Ctrl + D" />
+            <MenuItem mnemonicParsing="false" onAction="#Exp" text="Exportar proyecto | Ctrl + E" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#CerrarPrograma" text="Cerrar" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edición">
+        
+        <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Ayuda">
           <items>
-            <MenuItem mnemonicParsing="false" text="Seleccionar para Eliminar" />
-            <MenuItem mnemonicParsing="false" text="Seleccionar para Editar" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            
-            <MenuItem mnemonicParsing="false" text="Eliminar" />
-            
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Ayuda">
-          <items>
-            <MenuItem mnemonicParsing="false" onAction="#Acercade" text="Acerca de SCA" />
+            <MenuItem mnemonicParsing="false" onAction="#Acercade" text="Acerca de SCA | Ctrl + A" />
           </items>
         </Menu>
       </menus>

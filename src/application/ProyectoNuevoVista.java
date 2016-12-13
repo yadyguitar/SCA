@@ -30,7 +30,7 @@ public class ProyectoNuevoVista implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		ventanaProyecto.setStyle("-fx-background-color: #92A4E8;");
+		//ventanaProyecto.setStyle("-fx-background-color: #92A4E8;");
 		
 	}
 

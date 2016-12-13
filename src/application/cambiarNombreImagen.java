@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -33,7 +36,7 @@ public class cambiarNombreImagen implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		ventanaProyecto.setStyle("-fx-background-color: #92A4E8;");
+		//ventanaProyecto.setStyle("-fx-background-color: #92A4E8;");
 	        minuto.setPrefWidth(180);
 	        minuto.setItems(FXCollections.observableArrayList("10", "20","30","40","50","60","70","80","90","100","110","120","130","140","150","160","170","180","190","200","210","220","230","240"));
 	        minuto.setValue("10");
@@ -53,7 +56,7 @@ public class cambiarNombreImagen implements Initializable{
 			System.out.println(ini.t);
 			System.out.println(pro.ProNuevo.substring(7));
 			co.actualizaImagen(ini.t,min,Integer.valueOf(pro.ProNuevo.substring(7)));
-			
+			JOptionPane.showMessageDialog(null, "Operación exitosa");
 			changeLocale();
 		}
 		Stage stage = (Stage) cancelar.getScene().getWindow();

@@ -17,7 +17,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AreaControlador">
+<BorderPane onKeyPressed="#tecla" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AreaControlador">
    <bottom>
      
             <HBox prefHeight="25">
@@ -37,28 +37,34 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="x" style="-fx-translate-x: 815;" text="x:" />
-            <Label fx:id="y" style="-fx-translate-x: 875;" text="y:" />
+            <Label style="-fx-translate-x: 815;" text="x:" fx:id="x" />
+            <Label fx:id="y" style="-fx-translate-x: 885;" text="y:" />
          </children>
       </HBox>
    </bottom>
    <center>
-      <GridPane hgap="10" BorderPane.alignment="CENTER">
+      <GridPane hgap="10" prefHeight="550.0" prefWidth="1205.0" BorderPane.alignment="CENTER">
          <children>
          		<ScrollPane fx:id="canvas_area" maxHeight="540.0" maxWidth="1000" onKeyPressed="#cancelar" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-         		<ScrollPane maxHeight="510.0" minWidth="150" style="-fx-translate-y: 15;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         		<ScrollPane maxHeight="510.0" minWidth="170.0" prefHeight="100.0" prefWidth="175.0" style="-fx-translate-y: 15;" GridPane.columnIndex="2" GridPane.rowIndex="1">
             <content>
             			<AnchorPane>
                <children>
-                              <GridPane fx:id="area_results" alignment="CENTER" maxHeight="551.0" style="-fx-font-size:14" vgap="5" />
+                              <GridPane fx:id="area_results" alignment="CENTER" maxHeight="551.0" style="-fx-font-size:14" vgap="5">
+                           <padding>
+                              <Insets left="25.0" />
+                           </padding></GridPane>
                </children>
                         </AnchorPane>
             </content>
+               <GridPane.margin>
+                  <Insets left="-10.0" />
+               </GridPane.margin>
          		</ScrollPane>
            </children>
       	
          <BorderPane.margin>
-            <Insets />
+            <Insets right="-95.0" />
          </BorderPane.margin>
          <columnConstraints>
             <ColumnConstraints />
@@ -75,28 +81,28 @@
     
           <MenuBar BorderPane.alignment="CENTER">
       <menus>
-        <Menu mnemonicParsing="false" text="Archivo">
+        <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#guardar" text="Guardar Cambios" />
+            <MenuItem mnemonicParsing="false" onAction="#guardar" text="Guardar Cambios | Ctrl + S" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem onAction="#CerrarPrograma" mnemonicParsing="false" text="Cerrar" />
+            <MenuItem mnemonicParsing="false" onAction="#CerrarPrograma" text="Cerrar" />
           </items>
         </Menu> 
-        <Menu mnemonicParsing="false" text="Edición">
+        <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Edición">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#eliminar" text="Eliminar" />
+            <MenuItem mnemonicParsing="false" onAction="#eliminar" text="Eliminar | Supr" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Ayuda">
+        <Menu mnemonicParsing="false" style="-fx-translate-x: -8;" text="Ayuda">
           <items>
-            <MenuItem onAction="#Acercade" mnemonicParsing="false" text="Acerca de SCA" />
+            <MenuItem mnemonicParsing="false" onAction="#Acercade" text="Acerca de SCA | Ctrl + A" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
    </top>
    <right>
-      <Label alignment="TOP_CENTER" style="-fx-translate-x: -100; -fx-translate-y: -260;" text="Áreas" textFill="#5469b5" BorderPane.alignment="CENTER">
+      <Label alignment="TOP_CENTER" style="-fx-translate-x: -60; -fx-translate-y: -260;" text="Áreas (píxeles)" textFill="#5469b5" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

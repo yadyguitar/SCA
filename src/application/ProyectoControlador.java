@@ -3,8 +3,10 @@ package application;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,9 +28,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -41,6 +50,7 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 	static public Integer t2; //minuto de la imagen
 	static public String t3; //nombre del proyecto
 	static public String ProNuevo;
+	static public Integer momento = -1;
 	InicioControlador ini= new InicioControlador(); //aquÃ­ accedarÃ¡s al nombre del proyecto que se encuentra en otra vista static
 	ScreensController myController; 
 	int expI = 0;
@@ -59,9 +69,8 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub	
+		
 		textoProyecto.setText(" > "+ini.t);   //Guardo el texto del proyecto seleccionado
-		inicio.setCursor(Cursor.CLOSED_HAND);
-		textoProyecto.setCursor(Cursor.CLOSED_HAND);
 		try {
 			agregaImagen();
 		} catch (FileNotFoundException e) {
@@ -121,6 +130,93 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
         principal.setScene(scene);
         principal.show();	
 	}
+	private void cambiarCursorI(ImageView imv){
+		
+		imv.getScene().setCursor(Cursor.HAND);
+	}
+	private void restaurarCursorI(ImageView imv){
+		imv.getScene().setCursor(Cursor.DEFAULT);
+	}
+	private void cambiarCursorT(Label texto){
+		
+		texto.getScene().setCursor(Cursor.HAND);
+	}
+	private void restaurarCursorT(Label texto){
+		texto.getScene().setCursor(Cursor.DEFAULT);
+	}
+	private void ClickImagen(String nombre, Integer min,String ruta)
+	{
+		if(expI==0)
+		{
+			enviarImagen(min,nombre);
+		}
+		else{
+			Exportar(ruta);
+		}
+	}
+	private void Exportar(String ruta){
+		DirectoryChooser explorador = new DirectoryChooser();
+		explorador.setTitle("Exportar imagen");
+		
+		//String userDirectoryString = System.getProperty("user.home");
+		File directorioActual = new File(ruta);
+		String r = (explorador.showDialog(new Stage()) +"\\"+directorioActual.getName());
+		File directorioDestino = new File(r);
+		System.out.println(directorioDestino);
+		System.out.println(directorioActual);
+		//System.out.println(directorioDestino.getAbsolutePath());
+		//System.out.print(directorioActual.getAbsolutePath());
+        CopiarFichero(directorioActual,directorioDestino);
+        expI=0;
+		JOptionPane.showMessageDialog(null, "Operación exitosa");
+
+		
+	}
+	public static void CopiarFichero(File FOrigen,File FDestino){
+		try {
+			//Si el archivo a copiar existe
+			if(FOrigen.exists()){
+			    String copiar="S";
+			    //si el fichero destino ya existe
+			    if(FDestino.exists()){
+			      // System.out.println("El fichero ya existe, Desea Sobre Escribir:S/N ");
+			       //copiar = ( new BufferedReader(new InputStreamReader(System.in))).readLine();
+			    }
+			    //si puedo copiar
+			    if(copiar.toUpperCase().equals("S")){
+			        //Flujo de lectura al fichero origen(que se va a copiar)            
+			        FileInputStream LeeOrigen= new FileInputStream(FOrigen);
+			        //Flujo de lectura al fichero destino(donde se va a copiar)
+			        OutputStream Salida = new FileOutputStream(FDestino);
+			        //separo un buffer de 1MB de lectura
+			        byte[] buffer = new byte[1024];
+			        int tamaño;
+			        //leo el fichero a copiar cada 1MB
+			        while ((tamaño = LeeOrigen.read(buffer)) > 0) {
+			        	//Escribe el MB en el fichero destino
+			        	Salida.write(buffer, 0, tamaño);
+			        }
+			        //System.out.println(FOrigen.getName()+" Copiado con Exito!!");
+			        //cierra los flujos de lectura y escritura
+			        Salida.close();
+			        LeeOrigen.close();
+			    }
+	                
+	        }else{//l fichero a copiar no existe                
+	                //System.out.println("El fichero a copiar no existe..."+FOrigen.getAbsolutePath());
+	        }
+            
+        } catch (Exception ex) {
+            //System.out.println(ex.getMessage());
+        
+        }
+	    
+	}
+	@FXML 
+	private void ExpI(){
+		expI=1;
+	}
+
 	 
 	//Funciï¿½n que muestra las imï¿½genes que tiene el proyecto
 	@FXML public void agregaImagen() throws FileNotFoundException{
@@ -160,19 +256,25 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		        pictureRegion.setMinSize(240, 210);
 		        pictureRegion.getChildren().add(imv);
 		        pictureRegion.getChildren().addAll(l);
-		        l.setOnMouseClicked(e->{
-					try {
-						cambiarNombreI(l.getText());
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				});
-		        
+		     
 		        Integer min=lista.get(k);
 		        //Y se guarda el minuto de la imagen si se selecciona
-		        imv.setOnMouseClicked(e-> enviarImagen(e,min,ini.t));
 
+		        imv.setOnMouseEntered((e->{cambiarCursorI(imv);}));
+		        imv.setOnMouseExited((e->{restaurarCursorI(imv);}));
+		        imv.setOnMouseClicked(e->{ClickImagen(ini.t,min,tx);});
+		        l.setStyle("-fx-font: NORMAL 18 Tahoma;");
+
+		        l.setOnMouseEntered((e->{cambiarCursorT(l);}));
+		        l.setOnMouseExited((e->{restaurarCursorT(l);}));
+		        l.setOnMouseClicked(e->{try {
+					cambiarNombreI(l.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}});
+		        
+		      
 		        //Se agrega VBox al grid en columna i fila j
 		        grid.add(pictureRegion, i, j);
 		        i++;
@@ -203,7 +305,7 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 			
 	}
 	//Funciï¿½n que envia el minuto de la imagen seleccionada a la vista ï¿½rea
-	public void enviarImagen(javafx.scene.input.MouseEvent e,Integer texto2, String texto3){
+	public void enviarImagen(Integer texto2, String texto3){
 		
 		//System.out.println("Texto en Area:  "+texto2);
 		t2=texto2;
@@ -240,6 +342,7 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		        
 			
 		        try {
+		        	
 		          Files.copy(copy_from_1, copy_to_1, REPLACE_EXISTING, COPY_ATTRIBUTES,
 		              NOFOLLOW_LINKS);
 		        } catch (IOException e) {
@@ -265,10 +368,10 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		
 	}
 	@FXML
-	private void GraficaM0() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+	private void EliminarImagen() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
 		Stage principal = new Stage();
 		principal.initStyle(StageStyle.UNDECORATED);
-		Parent mainLayout = FXMLLoader.load(getClass().getResource("GraficaM0.fxml"));
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("EliminarImagen.fxml"));
         Scene scene = new Scene(mainLayout);
         //Agrega icono 
         Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
@@ -276,45 +379,81 @@ public class ProyectoControlador  implements Initializable,ControladorVentanas{
 		
         principal.setScene(scene);
         principal.show();	
+	}
+	private void Grafica() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		Stage principal = new Stage();
+		principal.initStyle(StageStyle.UNDECORATED);
+		Parent mainLayout = FXMLLoader.load(getClass().getResource("Grafica.fxml"));
+        Scene scene = new Scene(mainLayout);
+        //Agrega icono 
+        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
+		principal.getIcons().add(icon);
+        principal.setScene(scene);
+        principal.show();	
+	}
+	@FXML
+	private void GraficaM0() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		momento = 0;
+		Grafica();
 	}
 	@FXML
 	private void GraficaM1() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
-		Stage principal = new Stage();
-		principal.initStyle(StageStyle.UNDECORATED);
-		Parent mainLayout = FXMLLoader.load(getClass().getResource("GraficaM1.fxml"));
-        Scene scene = new Scene(mainLayout);
-        //Agrega icono 
-        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
-		principal.getIcons().add(icon);
-		
-        principal.setScene(scene);
-        principal.show();	
+		momento = 1;
+		Grafica();
 	}
 	@FXML
 	private void GraficaM2() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
-		Stage principal = new Stage();
-		principal.initStyle(StageStyle.UNDECORATED);
-		Parent mainLayout = FXMLLoader.load(getClass().getResource("GraficaM2.fxml"));
-        Scene scene = new Scene(mainLayout);
-        //Agrega icono 
-        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
-		principal.getIcons().add(icon);
+		momento = 2;
+		Grafica();
 		
-        principal.setScene(scene);
-        principal.show();	
 	}
 	@FXML
 	private void GraficaM3() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
-		Stage principal = new Stage();
-		principal.initStyle(StageStyle.UNDECORATED);
-		Parent mainLayout = FXMLLoader.load(getClass().getResource("GraficaM3.fxml"));
-        Scene scene = new Scene(mainLayout);
-        //Agrega icono 
-        Image icon = new Image(getClass().getResourceAsStream("imagenes/icono.png"));
-		principal.getIcons().add(icon);
+		momento = 3;
+		Grafica();
 		
-        principal.setScene(scene);
-        principal.show();	
 	}
+	@FXML
+	private void GraficaTodos() throws IOException{ //Esta funcion permite agregar un proyecto nuevo
+		momento = 4;
+		Grafica();
+		
+	}
+	@FXML
+	public void tecla(KeyEvent e) throws IOException{
+	
+		if (e.getCode() == KeyCode.N && e.isControlDown()) { 
+			AbrirVentana();
+	    }
+		if (e.getCode() == KeyCode.D && e.isControlDown()) { 
+			EliminarImagen();
+	    }
+		if (e.getCode() == KeyCode.E && e.isControlDown()) { 
+			agregaImagen();
+			expI=1;
+	    }
+		if (e.getCode() == KeyCode.A && e.isControlDown()) { 
+			Acercade();
+	    }
+		if (e.getCode() == KeyCode.F1) { 
+			GraficaM0();
+			
+	    }
+		if (e.getCode() == KeyCode.F2) { 
+			GraficaM1();
+	    }
+		if (e.getCode() == KeyCode.F3) { 
+			GraficaM2();
+	    }
+		if (e.getCode() == KeyCode.F4) { 
+			GraficaM3();	
+	    }
+		if (e.getCode() == KeyCode.M && e.isControlDown()) { 
+			GraficaTodos();
+	    }
+	
+		
+	} 	
+	
 	
 }

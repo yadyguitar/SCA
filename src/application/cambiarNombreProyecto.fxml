@@ -7,15 +7,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane onKeyPressed="#tecla" fx:id="ventanaProyecto" prefHeight="180.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.cambiarNombreProyecto">
+<AnchorPane fx:id="ventanaProyecto" onKeyPressed="#tecla" prefHeight="159.0" prefWidth="400.0" style="-fx-background-color: #f0ecea; -fx-border-color: #7e87e4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.cambiarNombreProyecto">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="67.0" text="Ingrese el nuevo nombre:" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="NombreProyectoNuevo" layoutX="200.0" layoutY="67.0" prefHeight="25.0" prefWidth="174.0" />
-      <Button fx:id="aceptar" layoutX="200.0" layoutY="129.0" mnemonicParsing="false"  onMouseClicked="#actualizarNombreP" prefHeight="25.0" prefWidth="79.0" text="Aceptar" />
-      <Button fx:id="cancelar" layoutX="295.0" layoutY="129.0" mnemonicParsing="false" onMouseClicked="#CerrarVentana" prefHeight="25.0" prefWidth="79.0" text="Cancelar" />
+      <TextField fx:id="NombreProyectoNuevo" layoutX="200.0" layoutY="67.0" prefHeight="25.0" prefWidth="186.0" />
+      <Button fx:id="aceptar" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#actualizarNombreP" prefHeight="25.0" prefWidth="79.0" style=": 111;" text="Aceptar" />
+      <ToolBar prefHeight="40.0" prefWidth="400.0" style="-fx-background-color: #BBC6E4;">
+        <items>
+          <Button fx:id="cancelar" mnemonicParsing="false" onMouseClicked="#CerrarVentana" style="-fx-background-color: #7E87E4; -fx-translate-x: 358;" text="X" textFill="WHITE" />
+        </items>
+      </ToolBar>
    </children>
 </AnchorPane>

@@ -10,18 +10,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="ventanaAcercade" onKeyPressed="#tecla" prefHeight="316.0" prefWidth="401.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AcercadeControlador">
+<AnchorPane fx:id="ventanaAcercade" onKeyPressed="#tecla" prefHeight="316.0" prefWidth="401.0" style="-fx-border-color: #7e87e4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AcercadeControlador">
    <children>
      
       <Button fx:id="cerrar" layoutX="302.0" layoutY="284.0" mnemonicParsing="false" onMouseClicked="#CerrarVentana" prefHeight="25.0" prefWidth="79.0" text="Cerrar" />
-      <Line endX="100.0" layoutX="300.0" layoutY="101.0" startX="-300.0" />
-      <Rectangle arcHeight="5.0" fill="#bbc6e4" height="108.0" layoutY="-7.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="401.0" />
-      <ImageView fitHeight="78.0" fitWidth="96.0" layoutX="21.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+      <Rectangle arcHeight="5.0" fill="#bbc6e4" height="108.0" layoutX="1.0" layoutY="1.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="403.0" />
+      <ImageView fitHeight="78.0" fitWidth="96.0" layoutX="21.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@imagenes/logouv.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="67.0" fitWidth="63.0" layoutX="310.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="67.0" fitWidth="63.0" layoutX="310.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@imagenes/icono.png" />
          </image>
